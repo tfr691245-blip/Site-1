@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <title>Elite Signal - AI Crypto Trading Signals</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,14 +25,21 @@
         --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
         --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+        /* Safe area insets for notched phones */
+        --safe-top: env(safe-area-inset-top, 0px);
+        --safe-bottom: env(safe-area-inset-bottom, 0px);
+        --safe-left: env(safe-area-inset-left, 0px);
+        --safe-right: env(safe-area-inset-right, 0px);
     }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     body {
         font-family: 'Inter', sans-serif;
         background-color: var(--bg);
         color: var(--text);
         line-height: 1.6;
         overflow-x: hidden;
+        width: 100%;
+        max-width: 100vw;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         opacity: 0;
@@ -41,7 +48,7 @@
     @keyframes bodyFade { to { opacity: 1; } }
 
     /* Backgrounds */
-    #nanoBg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; will-change: transform; }
+    #nanoBg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; will-change: transform; }
     .grid-bg {
         position: fixed; top: -100%; left: -100%; width: 300%; height: 300%; z-index: -3;
         background-image: linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
@@ -110,10 +117,10 @@
     @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
     /* Navbar */
-    .navbar { position: fixed; top: 44px; left: 0; right: 0; z-index: 1001; padding: 0 24px; height: 70px; transition: top 0.5s var(--ease-smooth), background 0.5s var(--ease-smooth), box-shadow 0.5s var(--ease-smooth); will-change: top, background; }
+    .navbar { position: fixed; top: 44px; left: 0; right: 0; z-index: 1001; padding: 0 clamp(16px, 4vw, 24px); height: 70px; transition: top 0.5s var(--ease-smooth), background 0.5s var(--ease-smooth), box-shadow 0.5s var(--ease-smooth); will-change: top, background; }
     .navbar.scrolled { top: 0; background: rgba(10, 14, 26, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
     .nav-inner { max-width: 1200px; margin: 0 auto; height: 100%; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; letter-spacing: -0.5px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: clamp(16px, 4vw, 20px); letter-spacing: -0.5px; }
     .logo-box { width: 32px; height: 32px; background: linear-gradient(135deg, var(--cyan), var(--blue)); border-radius: 8px; display: flex; align-items: center; justify-content: center; animation: logoPulse 3s ease-in-out infinite; }
     @keyframes logoPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4); } 50% { box-shadow: 0 0 15px 2px rgba(0, 240, 255, 0.2); } }
     .nav-links { display: flex; gap: 32px; align-items: center; }
@@ -122,17 +129,17 @@
     .btn-nav { padding: 10px 20px; border-radius: 50px; font-size: 14px; font-weight: 600; color: var(--bg); background: linear-gradient(135deg, var(--cyan), var(--blue)); transition: transform 0.3s var(--ease-bounce), box-shadow 0.3s var(--ease-smooth); animation: btnGlow 3s ease-in-out infinite; }
     @keyframes btnGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.3); } 50% { box-shadow: 0 0 20px 3px rgba(0, 240, 255, 0.2); } }
     .btn-nav:hover, .btn-nav:active { transform: translateY(-2px) scale(1.05); box-shadow: 0 0 25px rgba(0, 240, 255, 0.5); }
-    .menu-btn { background: none; color: var(--text); display: none; transition: transform 0.4s var(--ease-bounce); }
+    .menu-btn { background: none; color: var(--text); display: none; transition: transform 0.4s var(--ease-bounce); padding: 8px; }
 
     .mobile-menu { display: none; position: fixed; top: 114px; left: 0; right: 0; background: rgba(10, 14, 26, 0.98); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 20px; border-bottom: 1px solid var(--border); z-index: 999; transition: top 0.5s var(--ease-smooth), opacity 0.4s var(--ease-smooth); opacity: 0; transform: translateY(-10px); }
     .navbar.scrolled ~ .mobile-menu { top: 70px; }
     .mobile-menu.active { display: block; opacity: 1; transform: translateY(0); }
-    .mobile-menu a { display: block; padding: 12px 0; color: var(--text2); border-bottom: 1px solid var(--border); transition: color 0.3s var(--ease-smooth), padding-left 0.3s var(--ease-smooth), transform 0.3s var(--ease-bounce); }
+    .mobile-menu a { display: block; padding: 14px 0; color: var(--text2); border-bottom: 1px solid var(--border); transition: color 0.3s var(--ease-smooth), padding-left 0.3s var(--ease-smooth), transform 0.3s var(--ease-bounce); font-size: 16px; }
     .mobile-menu a:hover, .mobile-menu a:active { color: var(--cyan); padding-left: 10px; transform: translateX(5px); }
 
     /* Hero */
-    .hero { min-height: 100vh; padding-top: 150px; padding-bottom: 60px; display: flex; align-items: center; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; width: 100%; }
+    .hero { min-height: 100vh; padding-top: clamp(120px, 18vw, 150px); padding-bottom: 60px; display: flex; align-items: center; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 24px); width: 100%; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
 
     .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 50px; background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.2); color: var(--cyan); font-size: 12px; font-weight: 600; margin-bottom: 24px; animation: fadeInUp 0.8s var(--ease-smooth) both, badgePulse 3s ease-in-out 1s infinite; }
@@ -140,8 +147,8 @@
     .pulse { width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; animation: pulse 2s infinite; }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(0, 240, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); } }
 
-    .hero h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 700; line-height: 1.15; margin-bottom: 20px; letter-spacing: -0.5px; animation: fadeInUp 0.8s var(--ease-smooth) 0.1s both; }
-    .hero p { font-size: clamp(16px, 2vw, 18px); color: var(--text2); margin-bottom: 32px; max-width: 500px; animation: fadeInUp 0.8s var(--ease-smooth) 0.2s both; }
+    .hero h1 { font-size: clamp(28px, 6vw, 56px); font-weight: 700; line-height: 1.15; margin-bottom: 20px; letter-spacing: -0.5px; animation: fadeInUp 0.8s var(--ease-smooth) 0.1s both; }
+    .hero p { font-size: clamp(15px, 2.5vw, 18px); color: var(--text2); margin-bottom: 32px; max-width: 500px; animation: fadeInUp 0.8s var(--ease-smooth) 0.2s both; }
     .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeInUp 0.8s var(--ease-smooth) 0.3s both; }
 
     .btn-primary { padding: 12px 24px; border-radius: 50px; font-size: 14px; font-weight: 600; color: var(--bg); background: linear-gradient(135deg, var(--cyan), var(--blue)); display: inline-flex; align-items: center; gap: 8px; transition: transform 0.3s var(--ease-bounce), box-shadow 0.3s var(--ease-smooth); position: relative; overflow: hidden; background-size: 200% auto; }
@@ -155,9 +162,32 @@
     .trust-item { display: inline-flex; align-items: center; gap: 8px; transition: transform 0.3s var(--ease-bounce); }
     .trust-item:hover { transform: translateY(-2px); color: var(--text); }
 
-    /* Hero Visual with all smooth animations */
-    .hero-visual { position: relative; height: 600px; display: flex; align-items: center; justify-content: center; animation: fadeInRight 1s var(--ease-smooth) 0.3s both; overflow: visible; }
-    .visual-wrapper { position: relative; width: 450px; height: 520px; display: flex; align-items: center; justify-content: center; }
+    /* ============================================= */
+    /* HERO VISUAL - ADVANCED RESPONSIVE TECHNIQUE */
+    /* ============================================= */
+    /* Use CSS Zoom for proper mobile fitting instead of transform scale */
+    .hero-visual { 
+        position: relative; 
+        height: auto;
+        min-height: 600px;
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        animation: fadeInRight 1s var(--ease-smooth) 0.3s both; 
+        overflow: visible;
+        width: 100%;
+    }
+    
+    .visual-wrapper { 
+        position: relative; 
+        width: 450px;
+        height: 520px;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        /* Center the wrapper */
+        margin: 0 auto;
+    }
 
     .main-card {
         position: relative; z-index: 10; width: 100%;
@@ -167,7 +197,6 @@
         animation: cardEntrance 1.2s var(--ease-out) both, floatMain 6s ease-in-out 1.2s infinite;
         will-change: transform;
     }
-    /* Main card entrance: fade in + slide up + scale + border glow sweep */
     @keyframes cardEntrance {
         0% { opacity: 0; transform: translateY(40px) scale(0.9); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(0, 240, 255, 0); }
         60% { box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(0, 240, 255, 0.3); }
@@ -175,16 +204,10 @@
     }
     @keyframes floatMain { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
-    /* Shimmer sweep across main card */
     .main-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: -100%;
-        width: 100%; height: 100%;
+        content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
         background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.08), transparent);
-        animation: shimmerSweep 4s ease-in-out 1.5s infinite;
-        pointer-events: none;
-        border-radius: 24px;
+        animation: shimmerSweep 4s ease-in-out 1.5s infinite; pointer-events: none; border-radius: 24px;
     }
     @keyframes shimmerSweep { 0% { left: -100%; } 60%, 100% { left: 100%; } }
 
@@ -192,22 +215,17 @@
     .card-title { font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 8px; }
     .card-status { font-size: 12px; color: var(--cyan); font-weight: 600; display: flex; align-items: center; gap: 6px; }
 
-    /* Signal rows with staggered entrance */
     .signal-row {
         display: flex; justify-content: space-between; align-items: center;
         padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
         transition: all 0.3s var(--ease-smooth);
-        opacity: 0;
-        animation: rowSlideIn 0.6s var(--ease-out) both;
+        opacity: 0; animation: rowSlideIn 0.6s var(--ease-out) both;
     }
     .signal-row:nth-child(1) { animation-delay: 1.5s; }
     .signal-row:nth-child(2) { animation-delay: 1.65s; }
     .signal-row:nth-child(3) { animation-delay: 1.8s; }
     .signal-row:nth-child(4) { animation-delay: 1.95s; }
-    @keyframes rowSlideIn {
-        0% { opacity: 0; transform: translateX(-20px); }
-        100% { opacity: 1; transform: translateX(0); }
-    }
+    @keyframes rowSlideIn { 0% { opacity: 0; transform: translateX(-20px); } 100% { opacity: 1; transform: translateX(0); } }
     .signal-row:hover, .signal-row:active { background: rgba(0, 240, 255, 0.04); margin: 0 -10px; padding: 16px 10px; border-radius: 8px; }
     .signal-row:last-child { border-bottom: none; }
     .signal-left { display: flex; align-items: center; gap: 12px; }
@@ -225,58 +243,34 @@
     .card-footer { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); animation: fadeInUp 0.6s var(--ease-smooth) 2.1s both; }
     .progress-bar { height: 6px; background: var(--bg2); border-radius: 3px; width: 100%; margin-top: 8px; overflow: hidden; position: relative; }
     .progress-fill {
-        height: 100%; width: 0;
-        background: linear-gradient(90deg, var(--cyan), var(--blue));
-        border-radius: 3px;
-        animation: progressWidth 1.5s var(--ease-out) 2.3s forwards, progressGlow 3s ease-in-out 3.8s infinite;
-        will-change: width, box-shadow;
-        position: relative;
+        height: 100%; width: 0; background: linear-gradient(90deg, var(--cyan), var(--blue));
+        border-radius: 3px; animation: progressWidth 1.5s var(--ease-out) 2.3s forwards, progressGlow 3s ease-in-out 3.8s infinite;
+        will-change: width, box-shadow; position: relative;
     }
-    /* Shimmer on progress bar */
-    .progress-fill::after {
-        content: '';
-        position: absolute;
-        top: 0; left: -100%;
-        width: 100%; height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-        animation: progressShimmer 2.5s ease-in-out 4s infinite;
-    }
+    .progress-fill::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); animation: progressShimmer 2.5s ease-in-out 4s infinite; }
     @keyframes progressWidth { to { width: 89.3%; } }
     @keyframes progressGlow { 0%, 100% { box-shadow: 0 0 10px rgba(0, 240, 255, 0.3); } 50% { box-shadow: 0 0 20px rgba(0, 240, 255, 0.6); } }
     @keyframes progressShimmer { 0% { left: -100%; } 100% { left: 100%; } }
 
-    /* Floating cards with smooth entrance + float */
+    /* Floating cards */
     .float-card {
         position: absolute; z-index: 11;
         background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
         padding: 14px 18px; display: flex; align-items: center; gap: 12px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        min-width: 180px;
-        opacity: 0;
-        will-change: transform;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4); min-width: 180px;
+        opacity: 0; will-change: transform;
         transition: transform 0.4s var(--ease-bounce), box-shadow 0.4s var(--ease-smooth), border-color 0.4s var(--ease-smooth);
     }
     .float-card:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 15px 40px rgba(0,0,0,0.5); border-color: rgba(0, 240, 255, 0.2); }
 
-    /* Entrance animations for each float card - slide in from their direction */
     .fc-1 { top: -10px; right: -60px; animation: fc1Entrance 0.8s var(--ease-bounce) 1.7s both, floatCard 5s ease-in-out 2.5s infinite; }
     .fc-2 { top: 50%; left: -70px; animation: fc2Entrance 0.8s var(--ease-bounce) 1.9s both, floatCard2 5s ease-in-out 2.7s infinite; }
     .fc-3 { bottom: -10px; right: -40px; animation: fc3Entrance 0.8s var(--ease-bounce) 2.1s both, floatCard3 5s ease-in-out 2.9s infinite; }
 
-    /* Float cards enter from their respective corners/edges */
-    @keyframes fc1Entrance {
-        0% { opacity: 0; transform: translate(30px, -30px) scale(0.8); }
-        100% { opacity: 1; transform: translate(0, 0) scale(1); }
-    }
-    @keyframes fc2Entrance {
-        0% { opacity: 0; transform: translate(-30px, -50%) scale(0.8); }
-        100% { opacity: 1; transform: translate(0, -50%) scale(1); }
-    }
-    @keyframes fc3Entrance {
-        0% { opacity: 0; transform: translate(30px, 30px) scale(0.8); }
-        100% { opacity: 1; transform: translate(0, 0) scale(1); }
-    }
+    @keyframes fc1Entrance { 0% { opacity: 0; transform: translate(30px, -30px) scale(0.8); } 100% { opacity: 1; transform: translate(0, 0) scale(1); } }
+    @keyframes fc2Entrance { 0% { opacity: 0; transform: translate(-30px, -50%) scale(0.8); } 100% { opacity: 1; transform: translate(0, -50%) scale(1); } }
+    @keyframes fc3Entrance { 0% { opacity: 0; transform: translate(30px, 30px) scale(0.8); } 100% { opacity: 1; transform: translate(0, 0) scale(1); } }
     @keyframes floatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
     @keyframes floatCard2 { 0%, 100% { transform: translateY(-50%); } 50% { transform: translateY(calc(-50% - 8px)); } }
     @keyframes floatCard3 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
@@ -290,14 +284,13 @@
     .fc-2 .fc-value { color: var(--blue); }
     .fc-3 .fc-value { color: var(--purple); }
 
-    /* Icon bounce inside float cards */
     .float-card .icon-circle { transition: transform 0.4s var(--ease-bounce), box-shadow 0.4s var(--ease-smooth); }
     .float-card:hover .icon-circle { transform: scale(1.1) rotate(-8deg); }
     .fc-1:hover .icon-circle { box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
     .fc-2:hover .icon-circle { box-shadow: 0 0 20px rgba(0, 102, 255, 0.4); }
     .fc-3:hover .icon-circle { box-shadow: 0 0 20px rgba(123, 47, 255, 0.4); }
 
-    /* Scroll reveal animations */
+    /* Scroll reveal */
     .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-smooth), transform 1s var(--ease-smooth); will-change: opacity, transform; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
     .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 1s var(--ease-smooth), transform 1s var(--ease-smooth); will-change: opacity, transform; }
@@ -310,7 +303,7 @@
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
 
-    /* Stats bar with counter animation */
+    /* Stats */
     .stats-bar { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(17, 24, 39, 0.6); padding: 40px 0; }
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center; }
     .stat-num { font-size: clamp(24px, 3vw, 42px); font-weight: 900; margin-bottom: 4px; transition: transform 0.3s var(--ease-bounce); }
@@ -319,10 +312,10 @@
     .stat-item:hover { transform: translateY(-4px); }
     .stat-label { font-size: 11px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* Signals section */
+    /* Signals */
     .section { padding: 80px 0; }
     .section-header { text-align: center; margin-bottom: 40px; }
-    .section-title { font-size: 32px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .section-title { font-size: clamp(24px, 5vw, 32px); font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
     .section-sub { color: var(--text2); max-width: 600px; margin: 0 auto; font-size: 15px; }
 
     .filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
@@ -334,19 +327,9 @@
     .signals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
     .signal-card {
         background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 20px;
-        transition: all 0.4s var(--ease-bounce);
-        position: relative; overflow: hidden;
+        transition: all 0.4s var(--ease-bounce); position: relative; overflow: hidden;
     }
-    /* Shimmer effect on hover */
-    .signal-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: -100%;
-        width: 100%; height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.06), transparent);
-        transition: left 0.7s var(--ease-smooth);
-        pointer-events: none;
-    }
+    .signal-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.06), transparent); transition: left 0.7s var(--ease-smooth); pointer-events: none; }
     .signal-card:hover::before { left: 100%; }
     .signal-card:hover, .signal-card:active { transform: translateY(-8px) scale(1.01); border-color: rgba(0, 240, 255, 0.4); box-shadow: 0 15px 40px rgba(0, 240, 255, 0.15), 0 0 0 1px rgba(0, 240, 255, 0.1); }
 
@@ -373,22 +356,11 @@
     .conf-val, .roi-val { color: var(--cyan); font-weight: 700; transition: transform 0.3s var(--ease-bounce); }
     .signal-card:hover .conf-val, .signal-card:hover .roi-val { transform: scale(1.1); }
 
-    /* Pricing section */
+    /* Pricing */
     .pricing-section { padding: 80px 0; background: rgba(17, 24, 39, 0.4); }
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto; }
-    .pricing-card {
-        background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 32px 24px;
-        position: relative; transition: all 0.4s var(--ease-bounce); display: flex; flex-direction: column;
-        overflow: hidden;
-    }
-    .pricing-card::before {
-        content: '';
-        position: absolute; top: 0; left: -100%;
-        width: 100%; height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.04), transparent);
-        transition: left 0.8s var(--ease-smooth);
-        pointer-events: none;
-    }
+    .pricing-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 32px 24px; position: relative; transition: all 0.4s var(--ease-bounce); display: flex; flex-direction: column; overflow: hidden; }
+    .pricing-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.04), transparent); transition: left 0.8s var(--ease-smooth); pointer-events: none; }
     .pricing-card:hover::before { left: 100%; }
     .pricing-card:hover, .pricing-card:active { transform: translateY(-6px); border-color: rgba(0, 240, 255, 0.3); box-shadow: 0 15px 40px rgba(0, 240, 255, 0.1); }
     .pricing-card.featured { border: 2px solid var(--cyan); box-shadow: 0 0 40px rgba(0, 240, 255, 0.15); animation: featuredPulse 3s ease-in-out infinite; }
@@ -429,7 +401,7 @@
     .footer-col a:hover, .footer-col a:active { color: var(--cyan); transform: translateX(4px); }
     .copyright { text-align: center; font-size: 12px; color: var(--text3); padding-top: 20px; border-top: 1px solid var(--border); }
 
-    /* Modals & Toast */
+    /* Modals */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.4s var(--ease-smooth); }
     .modal-overlay.active { opacity: 1; visibility: visible; }
     .modal-content { background: var(--bg2); padding: 32px; border-radius: 20px; max-width: 400px; width: 90%; border: 1px solid var(--border); position: relative; transform: scale(0.9) translateY(20px); transition: transform 0.4s var(--ease-bounce); }
@@ -442,33 +414,121 @@
     #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--bg2); color: white; padding: 14px 28px; border-radius: 50px; border: 1px solid var(--cyan); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2); transition: all 0.4s var(--ease-bounce); z-index: 3000; font-size: 14px; font-weight: 500; }
     #toast.show { transform: translateX(-50%) translateY(0); }
 
-    /* Responsive: mobile keeps exact PC layout with scaling */
+    /* ============================================= */
+    /* ADVANCED MOBILE RESPONSIVE TECHNIQUES         */
+    /* ============================================= */
+    
+    /* Tablet: Use CSS zoom for proper layout scaling */
     @media (max-width: 1024px) {
         .fc-1 { right: -40px; }
         .fc-2 { left: -50px; }
         .fc-3 { right: -20px; }
     }
+    
+    /* Mobile: Switch to responsive flexbox layout instead of fixed-size scaling */
     @media (max-width: 900px) {
-        .hero-grid { grid-template-columns: 1fr; text-align: left; gap: 60px; }
-        .hero-visual { height: auto; padding: 40px 0; overflow: visible; min-height: 400px; }
-        .visual-wrapper { transform: scale(0.7); transform-origin: center center; width: 450px; height: 520px; }
+        .hero-grid { 
+            grid-template-columns: 1fr; 
+            text-align: left; 
+            gap: 40px; 
+        }
+        
+        /* Hero visual becomes responsive - uses aspect-ratio and fluid sizing */
+        .hero-visual { 
+            min-height: auto;
+            padding: 40px 0;
+            overflow: visible;
+            width: 100%;
+        }
+        
+        /* Use CSS zoom instead of transform for proper mobile fitting */
+        .visual-wrapper {
+            /* CSS zoom actually resizes the layout box, not just visually */
+            zoom: 0.75;
+            -moz-transform: scale(0.75);
+            -moz-transform-origin: top center;
+            width: 450px;
+            height: 520px;
+            margin: 0 auto;
+        }
+        
+        /* Fallback for browsers that don't support zoom */
+        @supports not (zoom: 1) {
+            .visual-wrapper {
+                transform: scale(0.75);
+                transform-origin: top center;
+                margin: 0 auto;
+            }
+        }
     }
+    
     @media (max-width: 600px) {
-        .hero h1 { font-size: 28px; }
-        .hero p { font-size: 15px; }
-        .hero-visual { min-height: 350px; padding: 30px 0; }
-        .visual-wrapper { transform: scale(0.6); }
+        .hero h1 { font-size: 26px; }
+        .hero p { font-size: 14px; }
+        .hero-visual { padding: 30px 0; }
+        
+        /* Even smaller zoom for phones */
+        .visual-wrapper {
+            zoom: 0.62;
+            -moz-transform: scale(0.62);
+        }
+        @supports not (zoom: 1) {
+            .visual-wrapper {
+                transform: scale(0.62);
+                transform-origin: top center;
+            }
+        }
+        
         .signals-grid { grid-template-columns: 1fr; }
         .sc-levels { grid-template-columns: 1fr; }
         .footer-grid { grid-template-columns: 1fr; }
         .filter-bar { flex-direction: column; align-items: flex-start; }
         .grid-bg { background-size: 50px 50px; }
+        
+        /* Make sure nav links are hidden on mobile */
+        .nav-links { display: none; }
+        .menu-btn { display: block; }
+        
+        /* Fix pricing cards on mobile */
+        .pricing-grid { grid-template-columns: 1fr; max-width: 360px; }
+        
+        /* Stats grid on mobile */
+        .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
     }
+    
     @media (max-width: 400px) {
-        .hero-visual { min-height: 320px; }
-        .visual-wrapper { transform: scale(0.52); }
+        .hero-visual { padding: 20px 0; }
+        
+        /* Very small phones */
+        .visual-wrapper {
+            zoom: 0.55;
+            -moz-transform: scale(0.55);
+        }
+        @supports not (zoom: 1) {
+            .visual-wrapper {
+                transform: scale(0.55);
+                transform-origin: top center;
+            }
+        }
+        
         .hero h1 { font-size: 24px; }
-        .hero p { font-size: 14px; }
+        .hero p { font-size: 13px; }
+        .hero-btns { flex-direction: column; width: 100%; }
+        .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    }
+    
+    /* Very large phones / small tablets */
+    @media (min-width: 601px) and (max-width: 900px) {
+        .visual-wrapper {
+            zoom: 0.72;
+            -moz-transform: scale(0.72);
+        }
+        @supports not (zoom: 1) {
+            .visual-wrapper {
+                transform: scale(0.72);
+                transform-origin: top center;
+            }
+        }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -774,7 +834,7 @@
 <div id="toast"><span id="toastMessage"></span></div>
 
 <script>
-    // --- CANVAS PARTICLE ANIMATION ---
+    // Canvas Particle Animation
     const canvas = document.getElementById('nanoBg');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -794,21 +854,11 @@
             this.opacity = Math.random() * 0.3 + 0.05;
             this.color = Math.random() > 0.5 ? '0,240,255' : '123,47,255';
         }
-        update() {
-            this.x += this.speedX; this.y += this.speedY;
-            if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
-        }
-        draw() {
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${this.color},${this.opacity})`; ctx.fill();
-        }
+        update() { this.x += this.speedX; this.y += this.speedY; if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset(); }
+        draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(${this.color},${this.opacity})`; ctx.fill(); }
     }
 
-    function initParticles() {
-        particles = [];
-        const count = isMobile ? 40 : 70;
-        for (let i = 0; i < count; i++) particles.push(new NanoDot());
-    }
+    function initParticles() { particles = []; const count = isMobile ? 40 : 70; for (let i = 0; i < count; i++) particles.push(new NanoDot()); }
 
     function drawConnections() {
         const maxDist = isMobile ? 120 : 150;
@@ -817,10 +867,7 @@
                 const dx = particles[i].x - particles[j].x;
                 const dy = particles[i].y - particles[j].y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < maxDist) {
-                    ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(0,240,255,${0.04 * (1 - dist / maxDist)})`; ctx.lineWidth = 0.5; ctx.stroke();
-                }
+                if (dist < maxDist) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.strokeStyle = `rgba(0,240,255,${0.04 * (1 - dist / maxDist)})`; ctx.lineWidth = 0.5; ctx.stroke(); }
             }
         }
     }
@@ -828,7 +875,6 @@
     let lastTime = 0;
     const targetFPS = isMobile ? 45 : 60;
     const frameInterval = 1000 / targetFPS;
-
     function animate(currentTime) {
         animationId = requestAnimationFrame(animate);
         if (currentTime - lastTime < frameInterval) return;
@@ -837,32 +883,18 @@
         particles.forEach(p => { p.update(); p.draw(); });
         drawConnections();
     }
-
     window.addEventListener('resize', () => { resizeCanvas(); initParticles(); }, { passive: true });
-    resizeCanvas();
-    initParticles();
-    requestAnimationFrame(animate);
+    resizeCanvas(); initParticles(); requestAnimationFrame(animate);
 
-    // --- NAVBAR & MOBILE MENU ---
+    // Navbar & Menu
     const navbar = document.getElementById('navbar');
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
+    window.addEventListener('scroll', () => { if (window.pageYOffset > 50) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled'); }, { passive: true });
+    menuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('active'); const isOpen = mobileMenu.classList.contains('active'); menuBtn.style.transform = isOpen ? 'rotate(90deg)' : 'rotate(0)'; });
+    document.querySelectorAll('#mobileMenu a').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('active'); menuBtn.style.transform = 'rotate(0)'; }); });
 
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 50) navbar.classList.add('scrolled');
-        else navbar.classList.remove('scrolled');
-    }, { passive: true });
-
-    menuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('active');
-        const isOpen = mobileMenu.classList.contains('active');
-        menuBtn.style.transform = isOpen ? 'rotate(90deg)' : 'rotate(0)';
-    });
-    document.querySelectorAll('#mobileMenu a').forEach(link => {
-        link.addEventListener('click', () => { mobileMenu.classList.remove('active'); menuBtn.style.transform = 'rotate(0)'; });
-    });
-
-    // --- COUNTER ANIMATION (smooth count up) ---
+    // Counter Animation
     function animateCounter(el) {
         if (el.dataset.animated) return;
         el.dataset.animated = 'true';
@@ -870,69 +902,33 @@
         const decimals = parseInt(el.dataset.decimals) || 0;
         const duration = 2000;
         const startTime = performance.now();
-
         function update(currentTime) {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            // Ease out cubic
             const eased = 1 - Math.pow(1 - progress, 3);
             const current = eased * target;
-
-            if (decimals > 0) {
-                el.textContent = current.toFixed(decimals);
-            } else {
-                el.textContent = Math.floor(current).toLocaleString();
-            }
-
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            } else {
-                el.textContent = decimals > 0 ? target.toFixed(decimals) : target.toLocaleString();
-            }
+            if (decimals > 0) { el.textContent = current.toFixed(decimals); } else { el.textContent = Math.floor(current).toLocaleString(); }
+            if (progress < 1) { requestAnimationFrame(update); } else { el.textContent = decimals > 0 ? target.toFixed(decimals) : target.toLocaleString(); }
         }
         requestAnimationFrame(update);
     }
 
-    // --- SMOOTH SCROLL REVEAL WITH COUNTERS ---
+    // Scroll Reveal
     const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
     const counters = document.querySelectorAll('.counter');
-
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, index * 60);
-                revealObserver.unobserve(entry.target);
-            }
+            if (entry.isIntersecting) { setTimeout(() => { entry.target.classList.add('visible'); }, index * 60); revealObserver.unobserve(entry.target); }
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
     const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                setTimeout(() => animateCounter(entry.target), 300);
-                counterObserver.unobserve(entry.target);
-            }
-        });
+        entries.forEach(entry => { if (entry.isIntersecting) { setTimeout(() => animateCounter(entry.target), 300); counterObserver.unobserve(entry.target); } });
     }, { threshold: 0.5 });
-
     revealElements.forEach(el => revealObserver.observe(el));
     counters.forEach(el => counterObserver.observe(el));
 
-    // --- SIGNALS DATA & RENDERING ---
-    const coinImages = {
-        'BTC': 'https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png',
-        'ETH': 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png',
-        'SOL': 'https://coin-images.coingecko.com/coins/images/4128/large/solana.png',
-        'BNB': 'https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png',
-        'XRP': 'https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png',
-        'AVAX': 'https://coin-images.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png',
-        'DOT': 'https://coin-images.coingecko.com/coins/images/12171/large/polkadot.png',
-        'LINK': 'https://coin-images.coingecko.com/coins/images/877/large/Chainlink_Logo_500.png',
-        'MATIC': 'https://coin-images.coingecko.com/coins/images/4713/large/matic-token-icon.png'
-    };
-
+    // Signals Data
+    const coinImages = { 'BTC': 'https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png', 'ETH': 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png', 'SOL': 'https://coin-images.coingecko.com/coins/images/4128/large/solana.png', 'BNB': 'https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png', 'XRP': 'https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png', 'AVAX': 'https://coin-images.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png', 'DOT': 'https://coin-images.coingecko.com/coins/images/12171/large/polkadot.png', 'LINK': 'https://coin-images.coingecko.com/coins/images/877/large/Chainlink_Logo_500.png', 'MATIC': 'https://coin-images.coingecko.com/coins/images/4713/large/matic-token-icon.png' };
     const signalsData = [
         { pair: 'BTC/USDT', type: 'buy', entry: 66840, target: 71200, stopLoss: 65100, rr: '1:2.5', confidence: 92, time: '2h ago', status: 'active' },
         { pair: 'ETH/USDT', type: 'buy', entry: 3420, target: 3780, stopLoss: 3310, rr: '1:3.3', confidence: 88, time: '3h ago', status: 'active' },
@@ -951,59 +947,19 @@
         list.innerHTML = filtered.map((s, i) => {
             const coinSymbol = s.pair.split('/')[0];
             const coinImg = coinImages[coinSymbol] || coinImages['BTC'];
-            return `
-            <div class="signal-card reveal-scale" style="transition-delay: ${i * 50}ms">
-                <div class="sc-header">
-                    <div class="sc-coin">
-                        <div class="sc-coin-icon"><img src="${coinImg}" alt="${coinSymbol}" loading="lazy" style="object-fit:cover;"></div>
-                        <div><div class="sc-pair">${s.pair}</div><div class="sc-time">${s.time} • ${s.status === 'active' ? '● Active' : '● Closed'}</div></div>
-                    </div>
-                    <span class="badge ${s.type === 'buy' ? 'badge-long' : 'badge-short'}">
-                        ${s.type === 'buy' ? '<svg class="icon-check-circle green small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="8"/><polyline points="9 12 11 14 15 10"/></svg>' : '<svg class="icon-check-circle red small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="8"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>'}
-                        ${s.type === 'buy' ? 'Long' : 'Short'}
-                    </span>
-                </div>
-                <div class="sc-levels">
-                    <div class="level-box"><span>Entry</span><strong style="color:var(--cyan)">$${s.entry.toLocaleString()}</strong></div>
-                    <div class="level-box"><span>Target</span><strong style="color:var(--cyan)">$${s.target.toLocaleString()}</strong></div>
-                    <div class="level-box"><span>Stop Loss</span><strong style="color:var(--red)">$${s.stopLoss.toLocaleString()}</strong></div>
-                </div>
-                <div class="sc-footer">
-                    <span>Confidence: <strong class="conf-val">${s.confidence}%</strong></span>
-                    <span>R:R <strong class="roi-val">${s.rr}</strong></span>
-                </div>
-            </div>`;
+            return `<div class="signal-card reveal-scale" style="transition-delay: ${i * 50}ms"><div class="sc-header"><div class="sc-coin"><div class="sc-coin-icon"><img src="${coinImg}" alt="${coinSymbol}" loading="lazy" style="object-fit:cover;"></div><div><div class="sc-pair">${s.pair}</div><div class="sc-time">${s.time} • ${s.status === 'active' ? '● Active' : '● Closed'}</div></div></div><span class="badge ${s.type === 'buy' ? 'badge-long' : 'badge-short'}">${s.type === 'buy' ? '<svg class="icon-check-circle green small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="8"/><polyline points="9 12 11 14 15 10"/></svg>' : '<svg class="icon-check-circle red small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="8"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>'}${s.type === 'buy' ? 'Long' : 'Short'}</span></div><div class="sc-levels"><div class="level-box"><span>Entry</span><strong style="color:var(--cyan)">$${s.entry.toLocaleString()}</strong></div><div class="level-box"><span>Target</span><strong style="color:var(--cyan)">$${s.target.toLocaleString()}</strong></div><div class="level-box"><span>Stop Loss</span><strong style="color:var(--red)">$${s.stopLoss.toLocaleString()}</strong></div></div><div class="sc-footer"><span>Confidence: <strong class="conf-val">${s.confidence}%</strong></span><span>R:R <strong class="roi-val">${s.rr}</strong></span></div></div>`;
         }).join('');
-
         document.querySelectorAll('#signalsGrid .reveal-scale').forEach(el => revealObserver.observe(el));
     }
     renderSignals();
 
-    function filterSignals(filter, btn) {
-        document.querySelectorAll('.filter-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
-        btn.classList.add('active'); btn.setAttribute('aria-pressed', 'true');
-        renderSignals(filter);
-    }
-
+    function filterSignals(filter, btn) { document.querySelectorAll('.filter-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); }); btn.classList.add('active'); btn.setAttribute('aria-pressed', 'true'); renderSignals(filter); }
     function openModal(type) { document.getElementById(type + 'Modal').classList.add('active'); document.body.style.overflow = 'hidden'; }
     function closeModal(type) { document.getElementById(type + 'Modal').classList.remove('active'); document.body.style.overflow = ''; }
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', (e) => { if (e.target === overlay) { overlay.classList.remove('active'); document.body.style.overflow = ''; } });
-    });
-
-    function handleLogin() {
-        const email = document.getElementById('loginEmail').value; const password = document.getElementById('loginPassword').value;
-        if (!email || !password) return showToast('Please fill in all fields');
-        closeModal('login'); showToast('Welcome back! Redirecting...');
-    }
-    function handleSignup() {
-        if (!document.getElementById('termsCheck').checked) return showToast('Please agree to the Terms');
-        closeModal('signup'); showToast('Account created! Check your email.');
-    }
-    function showToast(message) {
-        const toast = document.getElementById('toast'); document.getElementById('toastMessage').textContent = message;
-        toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000);
-    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', (e) => { if (e.target === overlay) { overlay.classList.remove('active'); document.body.style.overflow = ''; } }); });
+    function handleLogin() { const email = document.getElementById('loginEmail').value; const password = document.getElementById('loginPassword').value; if (!email || !password) return showToast('Please fill in all fields'); closeModal('login'); showToast('Welcome back! Redirecting...'); }
+    function handleSignup() { if (!document.getElementById('termsCheck').checked) return showToast('Please agree to the Terms'); closeModal('signup'); showToast('Account created! Check your email.'); }
+    function showToast(message) { const toast = document.getElementById('toast'); document.getElementById('toastMessage').textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
     function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active')); document.body.style.overflow = ''; } });
 </script>
