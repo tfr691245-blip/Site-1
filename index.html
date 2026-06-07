@@ -159,7 +159,7 @@
     }
     @keyframes logoPulse { 0%, 100% { opacity: 0; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
 
-    /* CENTER: LINKS (Hidden on Mobile) */
+    /* CENTER: LINKS */
     .nav-links { display: flex; gap: 32px; align-items: center; }
     .nav-link { font-size: 14px; font-weight: 500; color: var(--text2); transition: color 0.3s var(--ease-smooth), transform 0.3s var(--ease-bounce); }
     .nav-link:hover, .nav-link:active { color: var(--cyan); transform: translateY(-2px); }
@@ -257,7 +257,15 @@
     .trust-item:hover { transform: translateY(-2px); color: var(--text); }
 
     .hero-visual { position: relative; height: auto; min-height: 600px; display: flex; align-items: center; justify-content: center; animation: fadeInRight 1s var(--ease-smooth) 0.3s both; overflow: visible; width: 100%; }
-    .visual-wrapper { position: relative; width: 450px; height: 520px; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+    .visual-wrapper { 
+        position: relative; 
+        width: 100%; 
+        max-width: 450px;
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        margin: 0 auto; 
+    }
 
     .main-card {
         position: relative; z-index: 10; width: 100%;
@@ -702,17 +710,6 @@
     @media (max-width: 900px) {
         .hero-grid { grid-template-columns: 1fr; text-align: left; gap: 40px; }
         .hero-visual { min-height: auto; padding: 40px 0; overflow: visible; width: 100%; }
-        .visual-wrapper {
-            zoom: 0.75;
-            -moz-transform: scale(0.75);
-            -moz-transform-origin: top center;
-            width: 450px;
-            height: 520px;
-            margin: 0 auto;
-        }
-        @supports not (zoom: 1) {
-            .visual-wrapper { transform: scale(0.75); transform-origin: top center; margin: 0 auto; }
-        }
         .nav-links { gap: 20px; }
     }
     
@@ -735,11 +732,10 @@
     }
 
     @media (max-width: 600px) {
-        .hero h1 { font-size: 26px; }
+        .hero h1 { font-size: 28px; line-height: 1.2; }
         .hero p { font-size: 14px; }
         .hero-visual { padding: 30px 0; }
-        .visual-wrapper { zoom: 0.62; -moz-transform: scale(0.62); }
-        @supports not (zoom: 1) { .visual-wrapper { transform: scale(0.62); transform-origin: top center; } }
+        .main-card { padding: 24px; }
         .signals-grid { grid-template-columns: 1fr; }
         .sc-levels { grid-template-columns: 1fr; }
         .footer-grid { grid-template-columns: 1fr; }
@@ -747,13 +743,19 @@
         .grid-bg { background-size: 50px 50px; }
         .pricing-grid { grid-template-columns: 1fr; max-width: 360px; }
         .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        
+        /* Fix float cards on mobile */
+        .float-card {
+            min-width: 160px;
+            padding: 12px 14px;
+        }
+        .fc-1 { right: -20px; top: -5px; }
+        .fc-2 { left: -30px; }
+        .fc-3 { right: -10px; bottom: -5px; }
     }
 
-    @media (max-width: 380px) {
-        .hero-visual { padding: 20px 0; }
-        .visual-wrapper { zoom: 0.55; -moz-transform: scale(0.55); }
-        @supports not (zoom: 1) { .visual-wrapper { transform: scale(0.55); transform-origin: top center; } }
-        .hero h1 { font-size: 24px; }
+    @media (max-width: 400px) {
+        .hero h1 { font-size: 26px; }
         .hero p { font-size: 13px; }
         .hero-btns { flex-direction: column; width: 100%; }
         .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
@@ -761,11 +763,12 @@
         /* Ultra small mobile adjustments */
         .btn-account { padding: 6px 10px; }
         .btn-account-main { font-size: 11px; gap: 4px; }
+        .main-card { padding: 20px; }
+        .float-card { min-width: 140px; padding: 10px 12px; font-size: 12px; }
     }
     
     @media (min-width: 601px) and (max-width: 900px) {
-        .visual-wrapper { zoom: 0.72; -moz-transform: scale(0.72); }
-        @supports not (zoom: 1) { .visual-wrapper { transform: scale(0.72); transform-origin: top center; } }
+        .visual-wrapper { max-width: 400px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
