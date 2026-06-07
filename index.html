@@ -47,7 +47,8 @@
         top: 0; 
         left: 0; 
         width: 100vw; 
-        height: 100vh;                 z-index: -2; 
+        height: 100vh;
+        z-index: -2; 
         pointer-events: none; 
     }
     
@@ -96,7 +97,8 @@
 
     .gradient-elite {        
         background: linear-gradient(135deg, var(--cyan), var(--blue), var(--purple));
-        background-size: 300% auto;        -webkit-background-clip: text; 
+        background-size: 300% auto;
+        -webkit-background-clip: text; 
         -webkit-text-fill-color: transparent;
         background-clip: text;
         animation: eliteFlow 6s linear infinite;
@@ -133,7 +135,6 @@
     .icon-check-circle.red { color: var(--red); filter: drop-shadow(0 0 6px rgba(255, 77, 106, 0.6)); }
     .icon-check-circle.small { width: 14px; height: 14px; }
 
-    /* REMOVED backdrop-filter to save mobile GPU */
     .ticker-wrap { 
         position: fixed; 
         top: 0; 
@@ -145,7 +146,8 @@
         height: 44px; 
         display: flex; 
         align-items: center; 
-        overflow: hidden;     }
+        overflow: hidden;
+    }
     .ticker-move { 
         display: flex; 
         white-space: nowrap; 
@@ -194,11 +196,11 @@
         background: linear-gradient(135deg, var(--cyan), var(--blue)); 
         border-radius: 8px; 
         display: flex; 
-        align-items: center;         justify-content: center;
+        align-items: center;
+        justify-content: center;
         position: relative;
         z-index: 1;
     }
-    /* GPU-composited glow instead of animating box-shadow */
     .logo-box::after {
         content: '';
         position: absolute;
@@ -242,8 +244,8 @@
     .btn-nav:hover, .btn-nav:active { transform: translateY(-2px) scale(1.05); }
     .menu-btn { background: none; color: var(--text); display: none; transition: transform 0.3s var(--ease-bounce); padding: 8px; }
 
-    /* Fixed transition by using visibility instead of display:none */
-    .mobile-menu {         display: block; 
+    .mobile-menu {
+        display: block; 
         visibility: hidden;
         pointer-events: none;
         position: fixed; 
@@ -292,7 +294,8 @@
         gap: 8px; 
         padding: 6px 12px; 
         border-radius: 50px; 
-        background: rgba(0, 214, 143, 0.1);         border: 1px solid rgba(0, 214, 143, 0.2); 
+        background: rgba(0, 214, 143, 0.1);
+        border: 1px solid rgba(0, 214, 143, 0.2); 
         color: var(--cyan); 
         font-size: 12px; 
         font-weight: 600; 
@@ -341,7 +344,7 @@
         overflow: hidden;
     }
     .btn-primary:hover { transform: translateY(-3px) scale(1.05); }
-    /* Fixed layout thrashing by using transform instead of left */    .btn-primary::after { 
+    .btn-primary::after { 
         content: ''; 
         position: absolute; 
         top: 0; 
@@ -390,7 +393,8 @@
         height: 520px;
         display: flex; 
         align-items: center; 
-        justify-content: center;        margin: 0 auto;
+        justify-content: center;
+        margin: 0 auto;
     }
 
     .main-card {
@@ -439,11 +443,11 @@
         opacity: 0; 
         animation: rowSlideIn 0.6s var(--ease-out) both;
     }
-    .signal-row:nth-child(1) { animation-delay: 1.5s; }    .signal-row:nth-child(2) { animation-delay: 1.65s; }
+    .signal-row:nth-child(1) { animation-delay: 1.5s; }
+    .signal-row:nth-child(2) { animation-delay: 1.65s; }
     .signal-row:nth-child(3) { animation-delay: 1.8s; }
     .signal-row:nth-child(4) { animation-delay: 1.95s; }
     @keyframes rowSlideIn { 0% { opacity: 0; transform: translateX(-20px); } 100% { opacity: 1; transform: translateX(0); } }
-    /* Removed margin/padding changes to prevent layout shift */
     .signal-row:hover, .signal-row:active { background: rgba(0, 214, 143, 0.04); border-radius: 8px; }
     .signal-row:last-child { border-bottom: none; }
     .signal-left { display: flex; align-items: center; gap: 12px; }
@@ -488,7 +492,8 @@
         pointer-events: none;
     }
     @keyframes progressGlow { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
-    .progress-fill::after {         content: ''; 
+    .progress-fill::after {
+        content: ''; 
         position: absolute; 
         top: 0; 
         left: 0; 
@@ -537,7 +542,8 @@
     .fc-2 .fc-value { color: var(--blue); }
     .fc-3 .fc-value { color: var(--purple); }
 
-    .float-card .icon-circle { transition: transform 0.3s var(--ease-bounce); }    .float-card:hover .icon-circle { transform: scale(1.1); }
+    .float-card .icon-circle { transition: transform 0.3s var(--ease-bounce); }
+    .float-card:hover .icon-circle { transform: scale(1.1); }
 
     .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -586,7 +592,8 @@
         left: 0; 
         width: 100%; 
         height: 100%; 
-        background: linear-gradient(90deg, transparent, rgba(0, 214, 143, 0.06), transparent);         transform: translateX(-100%);
+        background: linear-gradient(90deg, transparent, rgba(0, 214, 143, 0.06), transparent);
+        transform: translateX(-100%);
         transition: transform 0.7s var(--ease-smooth); 
         pointer-events: none; 
     }
@@ -635,7 +642,8 @@
         position: relative; 
         transition: all 0.3s var(--ease-bounce);
         display: flex; 
-        flex-direction: column;         overflow: hidden;
+        flex-direction: column;
+        overflow: visible; /* FIXED: Changed from hidden to visible so badge isn't clipped */
     }
     .pricing-card::before { 
         content: ''; 
@@ -648,6 +656,7 @@
         transform: translateX(-100%);
         transition: transform 0.8s var(--ease-smooth); 
         pointer-events: none; 
+        border-radius: inherit; /* FIXED: Added to keep shimmer inside rounded corners */
     }
     .pricing-card:hover::before { transform: translateX(100%); }
     .pricing-card:hover, .pricing-card:active { transform: translateY(-6px); border-color: rgba(0, 214, 143, 0.3); box-shadow: 0 15px 30px rgba(0, 214, 143, 0.1); }
@@ -670,7 +679,20 @@
     }
     @keyframes featuredPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-    .pricing-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--cyan), var(--blue)); color: var(--bg); padding: 4px 16px; border-radius: 16px; font-size: 10px; font-weight: 700; animation: badgeBounce 2s ease-in-out infinite; }
+    .pricing-badge { 
+        position: absolute; 
+        top: -12px; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        background: linear-gradient(135deg, var(--cyan), var(--blue)); 
+        color: var(--bg); 
+        padding: 4px 16px; 
+        border-radius: 16px; 
+        font-size: 10px; 
+        font-weight: 700; 
+        animation: badgeBounce 2s ease-in-out infinite; 
+        z-index: 2; /* FIXED: Added to ensure badge sits above card border/glow */
+    }
     @keyframes badgeBounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-4px); } }
     .plan-name { font-size: 16px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
     .plan-price { font-size: 40px; font-weight: 900; margin-bottom: 4px; transition: transform 0.2s var(--ease-bounce); }
@@ -684,7 +706,8 @@
         width: 100%; 
         padding: 14px; 
         border-radius: 12px; 
-        font-weight: 700;                 font-size: 14px; 
+        font-weight: 700;
+        font-size: 14px; 
         transition: all 0.2s var(--ease-bounce);
         position: relative; 
         overflow: hidden;
@@ -733,7 +756,8 @@
     .copyright { text-align: center; font-size: 12px; color: var(--text3); padding-top: 20px; border-top: 1px solid var(--border); }
 
     .modal-overlay { 
-        position: fixed;                 inset: 0; 
+        position: fixed;
+        inset: 0; 
         background: rgba(0,0,0,0.85); 
         display: flex; 
         align-items: center; 
@@ -780,9 +804,10 @@
         background: var(--bg2);
         color: white;
         padding: 14px 28px;
-        border-radius: 50px;        
+        border-radius: 50px;
         border: 1px solid var(--cyan);
-        box-shadow: 0 10px 25px rgba(0, 214, 143, 0.2);        transition: all 0.3s var(--ease-bounce);
+        box-shadow: 0 10px 25px rgba(0, 214, 143, 0.2);
+        transition: all 0.3s var(--ease-bounce);
         z-index: 3000;
         font-size: 14px;
         font-weight: 500;
@@ -829,9 +854,10 @@
     }
     
     @media (max-width: 400px) {
-        .hero-visual { padding: 20px 0; }        
+        .hero-visual { padding: 20px 0; }
         .visual-wrapper { zoom: 0.55; -moz-transform: scale(0.55); }
-        @supports not (zoom: 1) { .visual-wrapper { transform: scale(0.55); transform-origin: top center; } }        .hero h1 { font-size: 24px; }
+        @supports not (zoom: 1) { .visual-wrapper { transform: scale(0.55); transform-origin: top center; } }
+        .hero h1 { font-size: 24px; }
         .hero p { font-size: 13px; }
         .hero-btns { flex-direction: column; width: 100%; }
         .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
@@ -878,9 +904,11 @@
             <div class="logo-box"><svg class="icon" viewBox="0 0 24 24" style="stroke:white"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
             Elite<span class="gradient-elite">Signal</span>
         </a>
-        <div class="nav-links">            <a href="#signals" class="nav-link">Signals</a>
+        <div class="nav-links">
+            <a href="#signals" class="nav-link">Signals</a>
             <a href="#pricing" class="nav-link">Pricing</a>
-            <a href="#faq" class="nav-link">FAQ</a>            <button class="btn-nav" onclick="openModal('signup')">Get Started</button>
+            <a href="#faq" class="nav-link">FAQ</a>
+            <button class="btn-nav" onclick="openModal('signup')">Get Started</button>
         </div>
         <button class="menu-btn" id="menuBtn" aria-label="Toggle menu"><svg class="icon-lg" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     </div>
@@ -926,10 +954,12 @@
                                 <div class="signal-right"><div class="signal-roi">+3.72%</div><div class="signal-conf">92% Conf</div></div>
                             </div>
                             <div class="signal-row">
-                                <div class="signal-left">                                    <div class="coin-icon"><img src="https://coin-images.coingecko.com/coins/images/279/large/ethereum.png" alt="ETH" loading="lazy"></div>
+                                <div class="signal-left">
+                                    <div class="coin-icon"><img src="https://coin-images.coingecko.com/coins/images/279/large/ethereum.png" alt="ETH" loading="lazy"></div>
                                     <div class="signal-info"><h4>ETH/USDT</h4><span>Long • 3h ago</span></div>
                                 </div>
-                                <div class="signal-right"><div class="signal-roi">+2.15%</div><div class="signal-conf">88% Conf</div></div>                            </div>
+                                <div class="signal-right"><div class="signal-roi">+2.15%</div><div class="signal-conf">88% Conf</div></div>
+                            </div>
                             <div class="signal-row">
                                 <div class="signal-left">
                                     <div class="coin-icon"><img src="https://coin-images.coingecko.com/coins/images/4128/large/solana.png" alt="SOL" loading="lazy"></div>
@@ -974,11 +1004,13 @@
 <section class="stats-bar">
     <div class="container">
         <div class="stats-grid reveal">
-            <div class="stat-item" style="display:flex; flex-direction:column; align-items:center; gap:8px;">                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00d68f" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <div class="stat-item" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00d68f" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 <div class="stat-num" style="color:var(--cyan)"><span class="counter" data-target="89" data-decimals="0">0</span>%</div>
                 <div class="stat-label">Signal Accuracy</div>
             </div>
-            <div class="stat-item" style="display:flex; flex-direction:column; align-items:center; gap:8px;">                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div class="stat-item" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 <div class="stat-num" style="color:#ffffff"><span class="counter" data-target="50" data-decimals="0">0</span>K+</div>
                 <div class="stat-label">Active Traders</div>
             </div>
@@ -1022,12 +1054,14 @@
     <div class="container">
         <div class="section-header reveal">
             <h2 class="section-title">Choose Your Plan</h2>
-            <p class="section-sub">Start free and upgrade when ready. All plans include real-time signals.</p>        </div>
+            <p class="section-sub">Start free and upgrade when ready. All plans include real-time signals.</p>
+        </div>
         <div class="pricing-grid">
             <div class="pricing-card reveal-scale">
                 <div class="plan-name">Starter</div>
                 <div class="plan-price">Free</div>
-                <div class="plan-period">Forever free</div>                <ul class="plan-features">
+                <div class="plan-period">Forever free</div>
+                <ul class="plan-features">
                     <li><svg class="icon-check-circle green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><polyline points="9 12 11 14 15 10"/></svg> 3 Signals per day</li>
                     <li><svg class="icon-check-circle green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><polyline points="9 12 11 14 15 10"/></svg> Top 10 coins</li>
                     <li><svg class="icon-check-circle green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><polyline points="9 12 11 14 15 10"/></svg> Email notifications</li>
@@ -1070,13 +1104,15 @@
             <div style="padding:20px;border-bottom:1px solid var(--border);cursor:pointer" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
                 <div style="display:flex;justify-content:space-between;align-items:center"><strong>How accurate are your trading signals?</strong><svg class="icon" viewBox="0 0 24 24" style="transform:rotate(180deg);transition:transform 0.3s var(--ease-smooth)"><polyline points="6 9 12 15 18 9"/></svg></div>
             </div>
-            <div style="padding:20px;color:var(--text2);display:block">Our signals maintain an 89.3% win rate, verified by independent third-party auditors.</div>            <div style="padding:20px;border-bottom:1px solid var(--border);border-top:1px solid var(--border);cursor:pointer" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+            <div style="padding:20px;color:var(--text2);display:block">Our signals maintain an 89.3% win rate, verified by independent third-party auditors.</div>
+            <div style="padding:20px;border-bottom:1px solid var(--border);border-top:1px solid var(--border);cursor:pointer" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
                 <div style="display:flex;justify-content:space-between;align-items:center"><strong>What cryptocurrencies do you cover?</strong><svg class="icon" viewBox="0 0 24 24" style="transform:rotate(180deg);transition:transform 0.3s var(--ease-smooth)"><polyline points="6 9 12 15 18 9"/></svg></div>
             </div>
             <div style="padding:20px;color:var(--text2);display:none">We cover the top 50 cryptocurrencies by market cap, including BTC, ETH, SOL, and many altcoins.</div>
             <div style="padding:20px;border-bottom:1px solid var(--border);border-top:1px solid var(--border);cursor:pointer" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
                 <div style="display:flex;justify-content:space-between;align-items:center"><strong>How are signals delivered?</strong><svg class="icon" viewBox="0 0 24 24" style="transform:rotate(180deg);transition:transform 0.3s var(--ease-smooth)"><polyline points="6 9 12 15 18 9"/></svg></div>
-            </div>            <div style="padding:20px;color:var(--text2);display:none">Signals are delivered in real-time via Telegram, Discord, email, SMS, or through our web dashboard.</div>
+            </div>
+            <div style="padding:20px;color:var(--text2);display:none">Signals are delivered in real-time via Telegram, Discord, email, SMS, or through our web dashboard.</div>
         </div>
     </div>
 </section>
@@ -1118,22 +1154,270 @@
         <input type="password" id="loginPassword" placeholder="Password" class="modal-input">
         <button class="btn-primary" style="width:100%;justify-content:center;" onclick="handleLogin()">Login</button>
     </div>
-</div><div class="modal-overlay" id="signupModal">
+</div>
+<div class="modal-overlay" id="signupModal">
     <div class="modal-content">
         <button class="modal-close" onclick="closeModal('signup')">&times;</button>
         <h3 style="margin-bottom:20px;font-size:24px;">Create Account</h3>
         <input type="email" placeholder="Email" class="modal-input">
         <input type="password" placeholder="Password" class="modal-input">
         <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);margin-bottom:20px;">
-            <input type="checkbox" id="termsCheck"> I agree to the Terms of Service        </label>
+            <input type="checkbox" id="termsCheck"> I agree to the Terms of Service
+        </label>
         <button class="btn-primary" style="width:100%;justify-content:center;" onclick="handleSignup()">Sign Up</button>
     </div>
 </div>
 
 <div id="toast"><span id="toastMessage"></span></div>
 
+<!-- === PREMIUM BACKEND INTEGRATION (Matches Your Design 100%) === -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script>
-// === Highly Optimized Canvas 2D Particle System ===
+// === FIREBASE CONFIG ===
+const firebaseConfig = {
+  apiKey: "AIzaSyDjpwIxoXA45Sqsutrx7yNXlpLvCkKScDY",
+  authDomain: "auth-ba051.firebaseapp.com",
+  projectId: "auth-ba051",
+  storageBucket: "auth-ba051.firebasestorage.app",
+  messagingSenderId: "758068617505",
+  appId: "1:758068617505:web:59fb6ef0e71ad8a7325e60",
+  measurementId: "G-4GGC38RQ1T"
+};
+firebase.initializeApp(firebaseConfig);
+
+// === API ENDPOINT ===
+const API_BASE = "https://api.elite.qzz.io";
+
+// === STATE ===
+let eliteAuth = {
+  user: null,
+  apiKey: localStorage.getItem('elite_api_key') || null,
+  tier: 'free',
+  initialized: false
+};
+
+// === PREMIUM AUTH SYSTEM ===
+const EliteAuth = {
+  init() {
+    if (eliteAuth.initialized) return;
+    const saved = localStorage.getItem('elite_session');
+    if (saved) {
+      try {
+        const session = JSON.parse(saved);
+        eliteAuth.user = session.user;
+        eliteAuth.apiKey = session.apiKey;
+        eliteAuth.tier = session.tier;
+        this.updateUI();
+      } catch(e) { console.warn('Session restore failed', e); }
+    }
+    firebase.auth().onAuthStateChanged(user => {
+      eliteAuth.user = user;
+      if (user) this.syncUser();
+      this.updateUI();
+    });
+    eliteAuth.initialized = true;
+  },
+
+  async loginGoogle() {
+    try {
+      showToast('Connecting to secure auth...', 'info');
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      const result = await firebase.auth().signInWithPopup(provider);
+      const user = result.user;
+      showToast('Authenticating with Elite API...', 'info');
+      await this.syncUser();
+      showToast('Access granted', 'success');
+      return eliteAuth.apiKey;
+    } catch (err) {
+      console.error('Auth error:', err);
+      showToast('Authentication failed', 'error');
+      throw err;
+    }
+  },
+
+  async syncUser() {
+    if (!eliteAuth.user) return null;
+    try {
+      const res = await fetch(API_BASE + '/auth-sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          uid: eliteAuth.user.uid,
+          email: eliteAuth.user.email,
+          name: eliteAuth.user.displayName
+        })
+      });
+      if (!res.ok) throw new Error('Sync failed');
+      const data = await res.json();
+      eliteAuth.apiKey = data.api_key;
+      eliteAuth.tier = data.tier || 'free';
+      localStorage.setItem('elite_session', JSON.stringify({
+        user: { uid: eliteAuth.user.uid, email: eliteAuth.user.email },
+        apiKey: eliteAuth.apiKey,
+        tier: eliteAuth.tier
+      }));
+      localStorage.setItem('elite_api_key', eliteAuth.apiKey);
+      return data;
+    } catch (err) {
+      console.error('Sync error:', err);
+      showToast('Failed to sync with API', 'error');
+      return null;
+    }
+  },
+
+  async callWhaleAPI(endpoint = '/whale-alerts', options = {}) {
+    if (!eliteAuth.apiKey) {
+      showToast('Authentication required', 'warning');
+      return null;
+    }
+    try {
+      const res = await fetch(API_BASE + endpoint, {
+        headers: { 'X-API-Key': eliteAuth.apiKey, 'Content-Type': 'application/json', ...options.headers },
+        ...options
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || 'Request failed', 'error'); return null; }
+      return data;
+    } catch (err) {
+      console.error('API call failed:', err);
+      showToast('Network error', 'error');
+      return null;
+    }
+  },
+
+  updateUI() {
+    const isLoggedIn = !!eliteAuth.apiKey;
+    document.querySelectorAll('[data-auth-required]').forEach(el => {
+      el.style.display = isLoggedIn ? '' : 'none';
+    });
+  },
+
+  showAPIPanel() {
+    let panel = document.getElementById('elite-api-panel');
+    if (!panel) {
+      panel = document.createElement('div');
+      panel.id = 'elite-api-panel';
+      panel.className = 'modal-overlay';
+      panel.innerHTML = `
+        <div class="modal-content" style="max-width:520px">
+          <button class="modal-close" onclick="EliteAuth.hideAPIPanel()">&times;</button>
+          <h3 style="margin-bottom:20px;font-size:24px;display:flex;align-items:center;gap:10px">
+            <svg class="icon" viewBox="0 0 24 24" style="color:var(--cyan)"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            API Access
+          </h3>
+          <div style="background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px">
+            <div style="font-size:12px;color:var(--text3);margin-bottom:8px">Your API Key</div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <code id="api-key-display" style="flex:1;background:var(--bg2);padding:10px 14px;border-radius:8px;font-family:monospace;font-size:13px;word-break:break-all"></code>
+              <button class="btn-secondary" onclick="EliteAuth.copyApiKey()" style="padding:10px 14px;font-size:12px">Copy</button>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+            <div style="background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+              <div style="font-size:24px;font-weight:800;color:var(--cyan)" id="api-calls-count">0</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:4px">Calls Today</div>
+            </div>
+            <div style="background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+              <div style="font-size:24px;font-weight:800;color:var(--cyan)" id="api-tier-badge">FREE</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:4px">Current Tier</div>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="EliteAuth.testAPI()" style="width:100%;justify-content:center;margin-bottom:12px">
+            <svg class="icon" viewBox="0 0 24 24" style="margin-right:6px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Test Whale Endpoint
+          </button>
+          <a href="https://nowpayments.io" target="_blank" class="btn-secondary" style="width:100%;justify-content:center;display:flex">
+            Upgrade to Pro
+          </a>
+          <div id="api-test-result" style="margin-top:16px;display:none">
+            <div style="font-size:12px;color:var(--text3);margin-bottom:8px">Response</div>
+            <pre style="background:var(--bg2);padding:12px;border-radius:8px;font-size:11px;overflow-x:auto;max-height:200px"></pre>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(panel);
+    }
+    panel.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('api-key-display').textContent = eliteAuth.apiKey;
+    document.getElementById('api-tier-badge').textContent = eliteAuth.tier?.toUpperCase() || 'FREE';
+  },
+
+  hideAPIPanel() {
+    const panel = document.getElementById('elite-api-panel');
+    if (panel) { panel.classList.remove('active'); document.body.style.overflow = ''; }
+  },
+
+  async copyApiKey() {
+    if (!eliteAuth.apiKey) return;
+    try { await navigator.clipboard.writeText(eliteAuth.apiKey); showToast('API key copied', 'success'); }
+    catch { showToast('Failed to copy', 'error'); }
+  },
+
+  async testAPI() {
+    showToast('Fetching live data...', 'info');
+    const result = document.getElementById('api-test-result');
+    const pre = result.querySelector('pre');
+    result.style.display = 'block';
+    pre.textContent = 'Loading...';
+    const data = await this.callWhaleAPI();
+    if (data) {
+      pre.textContent = JSON.stringify(data, null, 2);
+      document.getElementById('api-calls-count').textContent = (parseInt(document.getElementById('api-calls-count').textContent) || 0) + 1;
+      showToast('Data received', 'success');
+    } else { pre.textContent = 'Request failed'; }
+  },
+
+  async logout() {
+    try {
+      await firebase.auth().signOut();
+      eliteAuth = { user: null, apiKey: null, tier: 'free', initialized: true };
+      localStorage.removeItem('elite_session');
+      localStorage.removeItem('elite_api_key');
+      this.updateUI();
+      showToast('Signed out', 'info');
+    } catch (err) { showToast('Logout failed', 'error'); }
+  }
+};
+
+// === ENHANCED TOAST (Matches Your Design) ===
+function showToast(message, type = 'info') {
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMessage');
+  toastMsg.textContent = message;
+  toast.style.borderColor = { 'success': 'var(--cyan)', 'error': 'var(--red)', 'warning': 'var(--purple)', 'info': 'var(--blue)' }[type] || 'var(--cyan)';
+  toast.style.boxShadow = type === 'success' ? '0 10px 30px rgba(0, 214, 143, 0.25)' : '0 10px 25px rgba(0, 214, 143, 0.2)';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// === KEYBOARD SHORTCUTS ===
+document.addEventListener('keydown', (e) => {
+  if (e.target.matches('input, textarea')) return;
+  if (e.key.toLowerCase() === 'g' && !e.ctrlKey && !e.metaKey) { e.preventDefault(); EliteAuth.loginGoogle(); }
+  if (e.key.toLowerCase() === 'a' && eliteAuth.apiKey) { e.preventDefault(); EliteAuth.showAPIPanel(); }
+  if (e.key === 'Escape') { EliteAuth.hideAPIPanel(); closeModal('login'); closeModal('signup'); }
+});
+
+// === ENHANCED BUTTON HANDLERS ===
+document.querySelectorAll('[onclick*="signup"]').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    if (e.shiftKey || e.ctrlKey) { e.preventDefault(); EliteAuth.loginGoogle(); }
+  });
+});
+
+// === INIT ON DOM READY ===
+document.addEventListener('DOMContentLoaded', () => {
+  EliteAuth.init();
+  const savedKey = localStorage.getItem('elite_api_key');
+  if (savedKey) { eliteAuth.apiKey = savedKey; EliteAuth.updateUI(); }
+});
+</script>
+
+<!-- === HIGHLY OPTIMIZED CANVAS 2D PARTICLE SYSTEM === -->
+<script>
 const canvas = document.getElementById('nanoBg');
 const ctx = canvas.getContext('2d', { alpha: true });
 let particles = [];
@@ -1174,7 +1458,8 @@ class NanoDot {
 
 function initParticles() { 
     particles = []; 
-    const count = isMobile ? 25 : 40;    for (let i = 0; i < count; i++) particles.push(new NanoDot());
+    const count = isMobile ? 25 : 40;
+    for (let i = 0; i < count; i++) particles.push(new NanoDot());
 }
 
 function drawConnections() {
@@ -1223,7 +1508,8 @@ function animate(currentTime) {
         particles[i].draw();
     }
     
-    drawConnections();}
+    drawConnections();
+}
 
 window.addEventListener('resize', () => { resizeCanvas(); initParticles(); }, { passive: true });
 resizeCanvas(); 
@@ -1272,7 +1558,8 @@ function animateCounter(el) {
     const target = parseFloat(el.dataset.target);
     const decimals = parseInt(el.dataset.decimals) || 0;
     const duration = 2000;
-    const startTime = performance.now();    
+    const startTime = performance.now();
+    
     function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
@@ -1321,6 +1608,7 @@ counters.forEach(el => counterObserver.observe(el));
 
 // === Signals Data ===
 const coinImages = { 'BTC': 'https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png', 'ETH': 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png', 'SOL': 'https://coin-images.coingecko.com/coins/images/4128/large/solana.png', 'BNB': 'https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png', 'XRP': 'https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png', 'AVAX': 'https://coin-images.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png', 'DOT': 'https://coin-images.coingecko.com/coins/images/12171/large/polkadot.png', 'LINK': 'https://coin-images.coingecko.com/coins/images/877/large/Chainlink_Logo_500.png', 'MATIC': 'https://coin-images.coingecko.com/coins/images/4713/large/matic-token-icon.png' };
+
 const signalsData = [
     { pair: 'BTC/USDT', type: 'buy', entry: 66840, target: 71200, stopLoss: 65100, rr: '1:2.5', confidence: 92, time: '2h ago', status: 'active' },
     { pair: 'ETH/USDT', type: 'buy', entry: 3420, target: 3780, stopLoss: 3310, rr: '1:3.3', confidence: 88, time: '3h ago', status: 'active' },
@@ -1370,7 +1658,8 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
         if (e.target === overlay) { 
             overlay.classList.remove('active'); 
             document.body.style.overflow = ''; 
-        }     }); 
+        } 
+    }); 
 });
 
 function handleLogin() { 
@@ -1387,23 +1676,9 @@ function handleSignup() {
     showToast('Account created! Check your email.'); 
 }
 
-function showToast(message) { 
-    const toast = document.getElementById('toast'); 
-    document.getElementById('toastMessage').textContent = message; 
-    toast.classList.add('show'); 
-    setTimeout(() => toast.classList.remove('show'), 3000); 
-}
-
 function scrollToSection(id) { 
     document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); 
 }
-
-document.addEventListener('keydown', (e) => { 
-    if (e.key === 'Escape') { 
-        document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active')); 
-        document.body.style.overflow = ''; 
-    } 
-});
 </script>
 </body>
 </html>
