@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<title>Wallet Balance | Elite Signal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{max-width:100vw;overflow-x:hidden}
+img,svg,video,canvas{max-width:100%;height:auto;display:block}
+:root{
+  --bg:#0a0e1a;--bg2:#111827;--bg3:#1a1f2e;
+  --text:#ffffff;--text2:#c7d2e3;--text3:#8892b0;
+  --cyan:#00f0ff;--blue:#0066ff;--purple:#7b2fff;--red:#ff4d6a;--green:#00d68f;
+  --glass:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);
+  --shadow:0 10px 40px rgba(0,240,255,0.12);
+  --ease:cubic-bezier(0.4,0,0.2,1);--bounce:cubic-bezier(0.34,1.56,0.64,1);
+}
+body.light{
+  --bg:#f1f5f9;--bg2:#ffffff;--bg3:#f8fafc;
+  --text:#0f172a;--text2:#334155;--text3:#64748b;
+  --cyan:#0891b2;--blue:#2563eb;--purple:#7c3aed;--red:#dc2626;--green:#059669;
+  --glass:rgba(255,255,255,0.85);--border:rgba(15,23,42,0.08);
+  --shadow:0 10px 40px rgba(8,145,178,0.12);
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;transition:background .4s var(--ease),color .4s var(--ease);min-height:100vh}
+
+::selection{background:rgba(0,240,255,.3);color:#fff}
+body.light ::selection{background:rgba(8,145,178,.3);color:#fff}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--cyan)}
+
+button,a,input,textarea{touch-action:manipulation;font-family:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+.grid-bg{position:fixed;inset:-100%;width:300%;height:300%;z-index:-3;background-image:linear-gradient(rgba(0,240,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,.04) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 25s linear infinite;pointer-events:none}
+.grid-glow{position:fixed;inset:0;z-index:-2;background:radial-gradient(circle at 20% 30%,rgba(0,240,255,.08) 0%,transparent 40%),radial-gradient(circle at 80% 70%,rgba(123,47,255,.08) 0%,transparent 40%);animation:glowPulse 10s ease-in-out infinite;pointer-events:none}
+.bg-overlay{position:fixed;inset:0;z-index:-1;background:radial-gradient(circle at 50% 50%,transparent 0%,var(--bg) 70%);pointer-events:none}
+#nanoBg{position:fixed;inset:0;z-index:-2;pointer-events:none}
+body.light .grid-bg{background-image:linear-gradient(rgba(8,145,178,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(8,145,178,.06) 1px,transparent 1px)}
+body.light .grid-glow{background:radial-gradient(circle at 20% 30%,rgba(8,145,178,.1) 0%,transparent 40%),radial-gradient(circle at 80% 70%,rgba(124,58,237,.1) 0%,transparent 40%)}
+
+@keyframes gridMove{0%{transform:translate(0,0)}100%{transform:translate(60px,60px)}}
+@keyframes glowPulse{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes eliteFlow{0%{background-position:0% center}100%{background-position:300% center}}
+
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1001;padding:0 clamp(16px,4vw,24px);height:70px;background:rgba(10,14,26,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:all .3s var(--ease)}
+body.light .navbar{background:rgba(241,245,249,.75)}
+.navbar.scrolled{background:rgba(10,14,26,.95);box-shadow:0 4px 30px rgba(0,0,0,.3)}
+body.light .navbar.scrolled{background:rgba(255,255,255,.95);box-shadow:0 4px 30px rgba(0,0,0,.06)}
+.nav-inner{max-width:1200px;margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:clamp(16px,4vw,20px);text-decoration:none;color:var(--text);letter-spacing:-.5px;flex-shrink:0}
+.logo-box{width:36px;height:36px;background:linear-gradient(135deg,var(--cyan),var(--blue));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 0 15px rgba(0,240,255,.4);flex-shrink:0}
+body.light .logo-box{box-shadow:0 4px 14px rgba(8,145,178,.35)}
+.gradient-elite{background:linear-gradient(90deg,#00f0ff,#0066ff,#7b2fff,#00f0ff);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:eliteFlow 6s linear infinite}
+body.light .gradient-elite{background:linear-gradient(90deg,#0891b2,#2563eb,#7c3aed,#0891b2);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:eliteFlow 6s linear infinite}
+
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.btn-account{padding:8px 14px;border-radius:10px;background:var(--glass);border:1px solid var(--border);display:flex;flex-direction:column;align-items:flex-start;gap:2px;transition:all .25s var(--ease);cursor:pointer;text-decoration:none;min-height:44px;justify-content:center;flex-shrink:0}
+.btn-account:hover{background:rgba(0,240,255,.08);border-color:rgba(0,240,255,.3);transform:translateY(-2px)}
+body.light .btn-account:hover{background:rgba(8,145,178,.08);border-color:rgba(8,145,178,.3)}
+.btn-account-main{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;line-height:1.1;white-space:nowrap}
+.btn-account-sub{font-size:10px;color:var(--text3);line-height:1.1;margin-left:22px;white-space:nowrap}
+.btn-account:hover .btn-account-sub{color:var(--cyan)}
+.theme-toggle{width:44px;height:44px;border-radius:10px;background:var(--glass);border:1px solid var(--border);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s var(--bounce);font-size:15px;flex-shrink:0}
+.theme-toggle:hover{color:var(--cyan);border-color:var(--cyan);transform:rotate(15deg)}
+
+.container{max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,24px);width:100%}
+.main-content{padding-top:clamp(90px,12vw,120px);padding-bottom:60px}
+.section-header{text-align:center;margin-bottom:clamp(24px,5vw,40px)}
+.section-title{font-size:clamp(26px,5vw,44px);font-weight:800;margin-bottom:12px;letter-spacing:-1px;line-height:1.15}
+.section-sub{color:var(--text2);max-width:600px;margin:0 auto;font-size:clamp(14px,2vw,16px);line-height:1.6}
+
+.glass-card{background:var(--glass);border:1px solid var(--border);border-radius:20px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:all .4s var(--bounce);position:relative;overflow:hidden;isolation:isolate}
+body.light .glass-card{background:rgba(255,255,255,.9);box-shadow:0 4px 24px rgba(15,23,42,.04)}
+.glass-card::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,240,255,.06),transparent);transform:translateX(-100%);transition:transform .7s var(--ease);pointer-events:none;border-radius:inherit;z-index:-1}
+body.light .glass-card::before{background:linear-gradient(90deg,transparent,rgba(8,145,178,.06),transparent)}
+.glass-card:hover::before{transform:translateX(100%)}
+.glass-card:hover{transform:translateY(-4px);border-color:rgba(0,240,255,.3);box-shadow:var(--shadow)}
+body.light .glass-card:hover{border-color:rgba(8,145,178,.3)}
+
+.main-grid{display:grid;grid-template-columns:1fr;gap:clamp(16px,3vw,24px)}
+@media(min-width:900px){.main-grid{grid-template-columns:320px 1fr}}
+
+.panel-header{padding:18px 20px;border-bottom:1px solid var(--border);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--cyan);display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.1)}
+body.light .panel-header{background:rgba(15,23,42,.02)}
+.blockchain-list{max-height:600px;overflow-y:auto}
+.blockchain-item{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;border-bottom:1px solid var(--border);transition:all .3s var(--ease)}
+.blockchain-item:last-child{border-bottom:none}
+.blockchain-item:hover{background:rgba(0,240,255,.05);padding-left:24px}
+body.light .blockchain-item:hover{background:rgba(8,145,178,.06)}
+.blockchain-item.active{background:linear-gradient(90deg,rgba(0,240,255,.12),transparent);border-left:3px solid var(--cyan);padding-left:17px}
+body.light .blockchain-item.active{background:linear-gradient(90deg,rgba(8,145,178,.12),transparent)}
+.chain-icon-img{width:36px;height:36px;border-radius:50%;background:var(--bg2);padding:5px;border:1px solid var(--border);object-fit:cover;flex-shrink:0;transition:transform .4s var(--bounce)}
+.blockchain-item:hover .chain-icon-img{transform:scale(1.1) rotate(-5deg)}
+.chain-name{font-weight:700;font-size:14px;color:var(--text);line-height:1.2;word-break:break-word}
+.chain-network{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.2}
+.chain-symbol{color:var(--cyan);font-weight:700;font-size:12px;flex-shrink:0}
+
+.wallet-section{padding:clamp(20px,4vw,32px)}
+.wallet-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--cyan);margin-bottom:16px;font-weight:700}
+.balance-display{padding:clamp(28px,5vw,40px) 20px;background:rgba(0,240,255,.03);border:1px solid rgba(0,240,255,.1);border-radius:20px;margin-bottom:24px;text-align:center;position:relative;overflow:hidden}
+body.light .balance-display{background:rgba(8,145,178,.04);border-color:rgba(8,145,178,.15)}
+.balance-number{font-size:clamp(28px,5vw,48px);font-weight:800;font-family:'SF Mono',Consolas,monospace;background:linear-gradient(90deg,#00f0ff,#0066ff,#7b2fff,#00f0ff);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:eliteFlow 6s linear infinite;display:block;line-height:1.1;word-break:break-all}
+body.light .balance-number{background:linear-gradient(90deg,#0891b2,#2563eb,#7c3aed,#0891b2);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.balance-symbol{font-size:clamp(18px,3vw,22px);font-weight:700;color:var(--cyan);display:block;margin-top:10px}
+.balance-usd{font-size:clamp(14px,2vw,16px);color:var(--text2);display:block;margin-top:10px;font-family:'SF Mono',Consolas,monospace;font-weight:600}
+
+.address-input-area{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+@media(min-width:600px){.address-input-area{flex-direction:row}}
+.address-input{flex:1;background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:12px;padding:14px 18px;color:var(--text);font-family:'SF Mono',Consolas,monospace;font-size:clamp(12px,1.6vw,14px);outline:none;transition:all .3s var(--ease);min-height:48px;width:100%}
+body.light .address-input{background:rgba(15,23,42,.03)}
+.address-input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,240,255,.15)}
+body.light .address-input:focus{box-shadow:0 0 0 3px rgba(8,145,178,.15)}
+.btn-primary{padding:14px 24px;border-radius:12px;font-size:14px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--cyan),var(--blue));display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:all .3s var(--bounce);border:none;cursor:pointer;position:relative;overflow:hidden;min-height:48px;white-space:nowrap;box-shadow:0 4px 14px rgba(0,240,255,.3)}
+body.light .btn-primary{color:#fff;box-shadow:0 4px 14px rgba(8,145,178,.3)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,240,255,.4)}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:translateX(-100%);transition:transform .7s var(--ease)}
+.btn-primary:hover::after{transform:translateX(100%)}
+.address-note{font-size:clamp(11px,1.5vw,13px);color:var(--cyan);font-family:'SF Mono',Consolas,monospace;background:rgba(0,240,255,.05);padding:12px 16px;border-radius:12px;text-align:center;border:1px solid rgba(0,240,255,.15);margin-top:16px;word-break:break-all;line-height:1.5}
+body.light .address-note{background:rgba(8,145,178,.06);border-color:rgba(8,145,178,.2)}
+
+.footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text3);font-size:13px;margin-top:40px}
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.hidden{display:none!important}
+
+@media(max-width:600px){
+  .btn-account{padding:6px 10px;min-width:0}
+  .btn-account-sub{display:none}
+  .btn-account-main{font-size:12px}
+  .balance-number{font-size:32px}
+  .btn-primary{width:100%}
+}
+@media(max-width:380px){
+  .btn-account{padding:5px 8px}
+  .btn-account-main{font-size:11px;gap:4px}
+  .theme-toggle{width:40px;height:40px}
+  .chain-name{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="grid-glow"></div>
+<canvas id="nanoBg"></canvas>
+<div class="bg-overlay"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-box">
+        <svg viewBox="0 0 24 24" style="stroke:white;width:18px;height:18px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round">
+          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+          <polyline points="16 7 22 7 22 13"/>
+        </svg>
+      </div>
+      Elite<span class="gradient-elite">Signal</span>
+    </a>
+    <div class="nav-right">
+      <div id="userInfo" class="btn-account hidden" style="cursor:pointer" onclick="window.location.href='dashboard.html'">
+        <span class="btn-account-main">
+          <img id="userAvatar" src="" style="width:20px;height:20px;border-radius:50%;border:1px solid var(--cyan)">
+          <span id="userName"></span>
+        </span>
+        <span class="btn-account-sub">Dashboard</span>
+      </div>
+      <a href="auth.html" id="authBtn" class="btn-account">
+        <span class="btn-account-main"><i class="fas fa-user-circle"></i> Account</span>
+        <span class="btn-account-sub">Sign In / Up</span>
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+    </div>
+  </div>
+</nav>
+
+<main class="main-content">
+  <div class="container">
+    <div class="section-header reveal">
+      <h1 class="section-title">Real-Time <span class="gradient-elite">Wallet Balance</span></h1>
+      <p class="section-sub">Fetch live balances across 10+ blockchains with our enterprise-grade RPC nodes.</p>
+    </div>
+
+    <div class="main-grid reveal">
+      <div class="glass-card" id="blockchainPanel">
+        <div class="panel-header"><i class="fas fa-link"></i> SELECT BLOCKCHAIN</div>
+        <div class="blockchain-list" id="blockchainList"></div>
+      </div>
+
+      <div class="glass-card">
+        <div class="wallet-section">
+          <div class="wallet-label">WALLET BALANCE</div>
+          <div class="balance-display">
+            <span class="balance-number" id="balanceValue">0.00000000</span>
+            <span class="balance-symbol" id="balanceSymbol">BTC</span>
+            <span class="balance-usd" id="balanceUSD">$0.00 USD</span>
+          </div>
+          <div class="address-input-area">
+            <input type="text" class="address-input" id="addressInput" placeholder="Enter wallet address..." autocomplete="off" spellcheck="false">
+            <button class="btn-primary" id="fetchBtn">Fetch Balance <i class="fas fa-bolt"></i></button>
+          </div>
+          <div class="address-note" id="addressNote"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>Secure • FIFO Method • Real-time data</p>
+    <p id="timestamp" style="margin-top:8px;font-family:'SF Mono',Consolas,monospace;color:var(--text3);font-size:11px"></p>
+  </div>
+</footer>
+
+<script>
+const canvas=document.getElementById('nanoBg'),ctx=canvas.getContext('2d');let particles=[],isMobile=window.innerWidth<768;
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;isMobile=window.innerWidth<768}
+class NanoDot{constructor(){this.reset()}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*1.5+.5;this.speedX=(Math.random()-.5)*.3;this.speedY=(Math.random()-.5)*.3;this.opacity=Math.random()*.3+.05;this.color=document.body.classList.contains('light')?'8,145,178':'0,240,255'}update(){this.x+=this.speedX;this.y+=this.speedY;if(this.x<0||this.x>canvas.width)this.speedX*=-1;if(this.y<0||this.y>canvas.height)this.speedY*=-1}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle=`rgba(${this.color},${this.opacity})`;ctx.fill()}}
+function initParticles(){particles=[];const c=isMobile?30:50;for(let i=0;i<c;i++)particles.push(new NanoDot())}
+function drawConnections(){const m=isMobile?120:150,ms=m*m;ctx.lineWidth=.5;ctx.strokeStyle=document.body.classList.contains('light')?'rgba(8,145,178,.08)':'rgba(0,240,255,.05)';ctx.beginPath();for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;if(dx*dx+dy*dy<ms){ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y)}}ctx.stroke()}
+let lastTime=0;const tfps=isMobile?45:60,fi=1000/tfps;
+function animate(t){requestAnimationFrame(animate);const d=t-lastTime;if(d<fi)return;lastTime=t-(d%fi);ctx.clearRect(0,0,canvas.width,canvas.height);for(let i=0;i<particles.length;i++){particles[i].update();particles[i].draw()}drawConnections()}
+let resizeTimeout;window.addEventListener('resize',()=>{clearTimeout(resizeTimeout);resizeTimeout=setTimeout(()=>{resizeCanvas();initParticles()},100)},{passive:true});
+resizeCanvas();initParticles();requestAnimationFrame(animate);
+
+const navbar=document.getElementById('navbar');
+let ticking=false;window.addEventListener('scroll',()=>{if(!ticking){window.requestAnimationFrame(()=>{if(window.pageYOffset>50)navbar.classList.add('scrolled');else navbar.classList.remove('scrolled');ticking=false});ticking=true}},{passive:true});
+
+const revealElements=document.querySelectorAll('.reveal');
+const revealObserver=new IntersectionObserver(e=>{e.forEach((en,i)=>{if(en.isIntersecting){setTimeout(()=>en.target.classList.add('visible'),i*60);revealObserver.unobserve(en.target)}})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+revealElements.forEach(el=>revealObserver.observe(el));
+
+const themeToggle=document.getElementById('themeToggle'),icon=themeToggle.querySelector('i');
+function setTheme(t){
+  if(t==='light'){document.body.classList.add('light');icon.classList.remove('fa-moon');icon.classList.add('fa-sun');localStorage.setItem('theme','light')}
+  else{document.body.classList.remove('light');icon.classList.remove('fa-sun');icon.classList.add('fa-moon');localStorage.setItem('theme','dark')}
+  if(particles.length){particles.forEach(p=>p.color=document.body.classList.contains('light')?'8,145,178':'0,240,255')}
+}
+setTheme(localStorage.getItem('theme')==='light'?'light':'dark');
+themeToggle.addEventListener('click',()=>document.body.classList.contains('light')?setTheme('dark'):setTheme('light'));
+
+const currentUser=JSON.parse(localStorage.getItem('cryptotax_current_user'));
+const userInfo=document.getElementById('userInfo'),authBtn=document.getElementById('authBtn');
+if(currentUser){userInfo.classList.remove('hidden');authBtn.classList.add('hidden');document.getElementById('userName').innerText=currentUser.name||currentUser.email.split('@')[0];document.getElementById('userAvatar').src=currentUser.picture||`https://ui-avatars.com/api/?background=00f0ff&color=0a0e1a&name=${currentUser.email}`}else{userInfo.classList.add('hidden');authBtn.classList.remove('hidden')}
+
+// --- EXACT COIN IMAGES YOU PROVIDED ---
+const coinImages = { 
+  'BTC': 'https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png', 
+  'ETH': 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png', 
+  'SOL': 'https://coin-images.coingecko.com/coins/images/4128/large/solana.png', 
+  'BNB': 'https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png', 
+  'XRP': 'https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png', 
+  'AVAX': 'https://coin-images.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png', 
+  'DOT': 'https://coin-images.coingecko.com/coins/images/12171/large/polkadot.png', 
+  'LINK': 'https://coin-images.coingecko.com/coins/images/877/large/Chainlink_Logo_500.png', 
+  'MATIC': 'https://coin-images.coingecko.com/coins/images/4713/large/matic-token-icon.png' 
+};
+
+const BLOCKCHAINS=[
+  {name:"Bitcoin",symbol:"BTC",network:"Bitcoin Mainnet",type:"bitcoin",coinId:"bitcoin"},
+  {name:"Ethereum",symbol:"ETH",network:"Ethereum Mainnet",type:"evm",coinId:"ethereum"},
+  {name:"Binance Smart Chain",symbol:"BNB",network:"BSC Mainnet",type:"evm",coinId:"binancecoin"},
+  {name:"Solana",symbol:"SOL",network:"Solana Mainnet",type:"solana",coinId:"solana"},
+  {name:"Polygon",symbol:"MATIC",network:"Polygon PoS",type:"evm",coinId:"matic-network"},
+  {name:"Avalanche",symbol:"AVAX",network:"Avalanche C-Chain",type:"evm",coinId:"avalanche-2"},
+  {name:"Arbitrum",symbol:"ETH",network:"Arbitrum One",type:"evm",coinId:"ethereum"},
+  {name:"Optimism",symbol:"ETH",network:"Optimism Mainnet",type:"evm",coinId:"ethereum"},
+  {name:"Base",symbol:"ETH",network:"Base Mainnet",type:"evm",coinId:"ethereum"}
+];
+
+let currentChain=BLOCKCHAINS[0];
+
+function getRpcUrl(n){return{Ethereum:'https://eth.drpc.org','Binance Smart Chain':'https://bsc-dataseed.binance.org',Polygon:'https://polygon-rpc.com',Avalanche:'https://api.avax.network/ext/bc/C/rpc',Arbitrum:'https://arb1.arbitrum.io/rpc',Optimism:'https://mainnet.optimism.io',Base:'https://mainnet.base.org'}[n]||'https://eth.drpc.org'}
+
+async function fetchPolygonData(a){const e=['https://polygon.llamarpc.com','https://polygon-rpc.com','https://rpc-mainnet.maticvigil.com'];for(const u of e){try{const r=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',method:'eth_getBalance',params:[a,'latest'],id:1})});const d=await r.json();if(!d.error)return{balance:(parseInt(d.result,16)/1e18).toFixed(8)}}catch(e){continue}}throw new Error('Polygon RPC failed')}
+async function fetchSolanaData(a){const r=await fetch('https://solana.publicnode.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',method:'getBalance',params:[a],id:1})});const d=await r.json();if(d.error)throw new Error('Solana address not found');return{balance:(d.result?.value/1e9||0).toFixed(6)}}
+
+// FIXED SYNTAX ERROR HERE (Removed extra parenthesis)
+async function fetchBitcoinData(a){
+  const r=await fetch(`https://blockstream.info/api/address/${a}`);
+  if(!r.ok)throw new Error('Bitcoin address not found');
+  const d=await r.json();
+  const funded=d.chain_stats?.funded_txo_sum||0;
+  const spent=d.chain_stats?.spent_txo_sum||0;
+  return{balance:((funded-spent)/1e8).toFixed(8)}
+}
+
+async function fetchEVMData(n,a){const u=getRpcUrl(n);const r=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',method:'eth_getBalance',params:[a,'latest'],id:1})});const d=await r.json();if(d.error)throw new Error(`${n}: ${d.error.message}`);return{balance:(parseInt(d.result,16)/1e18).toFixed(8)}}
+
+async function fetchWalletData(){
+  const address=document.getElementById('addressInput').value.trim();
+  if(!address){alert('Please enter a wallet address');return}
+  const btn=document.getElementById('fetchBtn'),orig=btn.innerHTML;
+  btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Fetching...';
+  try{
+    let result;
+    if(address.startsWith('1')||address.startsWith('3')||address.startsWith('bc1')){
+      result=await fetchBitcoinData(address);document.getElementById('balanceSymbol').innerHTML='BTC';
+      document.getElementById('addressNote').innerHTML='<i class="fas fa-check-circle"></i> Bitcoin Address • Balance fetched';
+    }else if(address.length===44&&!address.startsWith('0x')){
+      result=await fetchSolanaData(address);document.getElementById('balanceSymbol').innerHTML='SOL';
+      document.getElementById('addressNote').innerHTML='<i class="fas fa-check-circle"></i> Solana Address • Balance fetched';
+    }else if(address.startsWith('0x')){
+      if(currentChain.name==='Polygon')result=await fetchPolygonData(address);
+      else result=await fetchEVMData(currentChain.name,address);
+      document.getElementById('balanceSymbol').innerHTML=currentChain.symbol;
+      document.getElementById('addressNote').innerHTML=`<i class="fas fa-check-circle"></i> ${currentChain.name} Address • Balance fetched`;
+    }else throw new Error('Invalid address format');
+    document.getElementById('balanceValue').innerHTML=parseFloat(result.balance).toLocaleString(undefined,{minimumFractionDigits:4,maximumFractionDigits:8});
+    const pr=await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${currentChain.coinId}&vs_currencies=usd`);
+    const pd=await pr.json();const p=pd[currentChain.coinId]?.usd||0;
+    document.getElementById('balanceUSD').innerHTML=`$${(parseFloat(result.balance)*p).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})} USD`;
+    document.getElementById('addressNote').style.color='var(--cyan)';
+    document.getElementById('addressNote').style.borderColor='rgba(0,240,255,.15)';
+    document.getElementById('addressNote').style.background='rgba(0,240,255,.05)';
+  }catch(error){
+    alert(`Error: ${error.message}`);
+    document.getElementById('addressNote').innerHTML=`<i class="fas fa-exclamation-circle" style="color:var(--red)"></i> ${error.message}`;
+    document.getElementById('addressNote').style.color='var(--red)';
+    document.getElementById('addressNote').style.borderColor='rgba(255,77,106,.2)';
+    document.getElementById('addressNote').style.background='rgba(255,77,106,.05)';
+  }finally{btn.disabled=false;btn.innerHTML=orig}
+}
+
+function renderBlockchainList(){
+  const c=document.getElementById('blockchainList');
+  c.innerHTML=BLOCKCHAINS.map(ch=>`
+    <div class="blockchain-item ${currentChain.name===ch.name?'active':''}" data-name="${ch.name}">
+      <img class="chain-icon-img" src="${coinImages[ch.symbol] || ''}" alt="${ch.name}" loading="lazy" onerror="this.style.display='none'">
+      <div style="flex:1;min-width:0"><div class="chain-name">${ch.name}</div><div class="chain-network">${ch.network}</div></div>
+      <div class="chain-symbol">${ch.symbol}</div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.blockchain-item').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const cd=BLOCKCHAINS.find(c=>c.name===el.getAttribute('data-name'));
+      if(cd){currentChain=cd;renderBlockchainList();document.getElementById('balanceSymbol').innerHTML=cd.symbol;document.getElementById('balanceValue').innerHTML='0.00000000';document.getElementById('balanceUSD').innerHTML='$0.00 USD';document.getElementById('addressNote').innerHTML='';document.getElementById('addressInput').placeholder=`Enter ${cd.name} address...`}
+    })
+  })
+}
+
+function updateTimestamp(){document.getElementById('timestamp').innerHTML=new Date().toLocaleString()}
+renderBlockchainList();
+document.getElementById('fetchBtn').addEventListener('click',fetchWalletData);
+document.getElementById('addressInput').addEventListener('keypress',e=>{if(e.key==='Enter')fetchWalletData()});
+updateTimestamp();setInterval(updateTimestamp,1000);
+</script>
+</body>
+</html>
