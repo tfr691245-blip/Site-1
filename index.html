@@ -14,7 +14,7 @@
         --bg2: #111827;
         --text: #ffffff;
         --text2: #8892b0;
-        --text3: #94a3b8; /* FIXED: Lightened for better WCAG contrast ratio */
+        --text3: #94a3b8;
         --cyan: #00f0ff;
         --blue: #0066ff;
         --purple: #7b2fff;
@@ -146,12 +146,10 @@
     }
     .btn-account-sub { 
         font-size: 10px; color: var(--text3); font-weight: 500; line-height: 1.1; 
-        margin-left: 18px; 
-        white-space: nowrap;
+        margin-left: 18px; white-space: nowrap;
     }
     .btn-account:hover .btn-account-sub { color: var(--cyan); }
 
-    /* FIXED: Removed redundant display:none declarations */
     .menu-btn { background: none; color: var(--text); transition: transform 0.4s var(--ease-bounce); padding: 10px; flex-shrink: 0; min-width: 44px; min-height: 44px; display: none; align-items: center; justify-content: center; }
 
     .mobile-menu { 
@@ -188,13 +186,8 @@
 
     .pulse { width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; position: relative; flex-shrink: 0; }
     .pulse::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 50%;
-        background: var(--cyan);
-        animation: pulseWave 2s infinite;
-        pointer-events: none;
+        content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--cyan);
+        animation: pulseWave 2s infinite; pointer-events: none;
     }
     @keyframes pulseWave {
         0% { transform: scale(1); opacity: 0.6; }
@@ -217,22 +210,33 @@
     .trust-item { display: inline-flex; align-items: center; gap: 8px; transition: transform 0.3s var(--ease-bounce); }
     .trust-item:hover { transform: translateY(-2px); color: var(--text); }
 
-    .hero-visual { position: relative; height: auto; min-height: 600px; display: flex; align-items: center; justify-content: center; animation: fadeInRight 1s var(--ease-smooth) 0.3s both; overflow: visible; width: 100%; }
-    .visual-wrapper { position: relative; width: 450px; height: 520px; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+    /* PERFECT RESPONSIVE VISUAL WRAPPER */
+    .hero-visual { 
+        position: relative; 
+        width: 100%; 
+        max-width: 500px; 
+        margin: 0 auto; 
+        animation: fadeInRight 1s var(--ease-smooth) 0.3s both; 
+    }
+    .visual-wrapper { 
+        position: relative; 
+        width: 100%; 
+        display: flex; 
+        flex-direction: column; 
+        gap: 20px; 
+    }
 
     .main-card {
         position: relative; z-index: 10; width: 100%;
         background: rgba(17, 24, 39, 0.95);
         border: 1px solid var(--border); border-radius: 24px; padding: 32px;
         box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(0, 240, 255, 0.05);
-        animation: cardEntrance 1.2s var(--ease-out) both, floatMain 6s ease-in-out 1.2s infinite;
+        animation: cardEntrance 1.2s var(--ease-out) both;
     }
     @keyframes cardEntrance {
-        0% { opacity: 0; transform: translateY(40px) scale(0.9); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(0, 240, 255, 0); }
-        60% { box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(0, 240, 255, 0.3); }
-        100% { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(0, 240, 255, 0.05); }
+        0% { opacity: 0; transform: translateY(40px) scale(0.95); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
     }
-    @keyframes floatMain { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
     .main-card::before {
         content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -288,38 +292,39 @@
     @keyframes progressWidth { to { width: 89.3%; } }
     @keyframes progressShimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
+    /* FLOATING CARDS CONTAINER */
+    .floating-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        width: 100%;
+    }
+
     .float-card {
-        position: absolute; z-index: 11;
         background: rgba(17, 24, 39, 0.95);
         border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
         padding: 14px 18px; display: flex; align-items: center; gap: 12px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.4); min-width: 180px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4); min-width: 0;
         opacity: 0;
-        transition: transform 0.4s var(--ease-bounce), box-shadow 0.4s var(--ease-smooth), border-color 0.4s var(--ease-smooth);
+        animation: fadeInUp 0.6s var(--ease-smooth) both;
+        transition: transform 0.3s var(--ease-bounce), box-shadow 0.3s var(--ease-smooth), border-color 0.3s var(--ease-smooth);
     }
-    .float-card:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 15px 40px rgba(0,0,0,0.5); border-color: rgba(0, 240, 255, 0.2); }
+    .float-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 15px 40px rgba(0,0,0,0.5); border-color: rgba(0, 240, 255, 0.2); }
 
-    .fc-1 { top: -10px; right: -60px; animation: fc1Entrance 0.8s var(--ease-bounce) 1.7s both, floatCard 5s ease-in-out 2.5s infinite; }
-    .fc-2 { top: 50%; left: -70px; animation: fc2Entrance 0.8s var(--ease-bounce) 1.9s both, floatCard2 5s ease-in-out 2.7s infinite; }
-    .fc-3 { bottom: -10px; right: -40px; animation: fc3Entrance 0.8s var(--ease-bounce) 2.1s both, floatCard3 5s ease-in-out 2.9s infinite; }
+    .fc-1 { animation-delay: 0.2s; }
+    .fc-2 { animation-delay: 0.3s; }
+    .fc-3 { animation-delay: 0.4s; }
 
-    @keyframes fc1Entrance { 0% { opacity: 0; transform: translate(30px, -30px) scale(0.8); } 100% { opacity: 1; transform: translate(0, 0) scale(1); } }
-    @keyframes fc2Entrance { 0% { opacity: 0; transform: translate(-30px, -50%) scale(0.8); } 100% { opacity: 1; transform: translate(0, -50%) scale(1); } }
-    @keyframes fc3Entrance { 0% { opacity: 0; transform: translate(30px, 30px) scale(0.8); } 100% { opacity: 1; transform: translate(0, 0) scale(1); } }
-    @keyframes floatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-    @keyframes floatCard2 { 0%, 100% { transform: translateY(-50%); } 50% { transform: translateY(calc(-50% - 8px)); } }
-    @keyframes floatCard3 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-
-    .fc-text { display: flex; flex-direction: column; gap: 2px; }
-    .fc-label { font-size: 11px; color: var(--text2); font-weight: 500; }
-    .fc-value { font-size: 15px; font-weight: 800; transition: transform 0.3s var(--ease-bounce); }
+    .fc-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .fc-label { font-size: 11px; color: var(--text2); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .fc-value { font-size: 15px; font-weight: 800; transition: transform 0.3s var(--ease-bounce); white-space: nowrap; }
     .float-card:hover .fc-value { transform: scale(1.05); }
 
     .fc-1 .fc-value { color: var(--cyan); }
     .fc-2 .fc-value { color: var(--blue); }
     .fc-3 .fc-value { color: var(--purple); }
 
-    .float-card .icon-circle { transition: transform 0.4s var(--ease-bounce); }
+    .float-card .icon-circle { transition: transform 0.4s var(--ease-bounce); flex-shrink: 0; }
     .float-card:hover .icon-circle { transform: scale(1.1) rotate(-8deg); }
 
     .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-smooth), transform 1s var(--ease-smooth); }
@@ -447,30 +452,62 @@
     #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--bg2); color: white; padding: 14px 28px; border-radius: 50px; border: 1px solid var(--cyan); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2); transition: all 0.4s var(--ease-bounce); z-index: 3000; font-size: 14px; font-weight: 500; max-width: 90vw; text-align: center; }
     #toast.show { transform: translateX(-50%) translateY(0); }
 
-    @media (max-width: 1024px) {
-        .fc-1 { right: -40px; }
-        .fc-2 { left: -50px; }
-        .fc-3 { right: -20px; }
-    }
+    /* =========================================
+       PERFECT RESPONSIVE COORDINATE SYSTEM
+       ========================================= */
     
+    /* DESKTOP: True floating absolute positioning */
+    @media (min-width: 901px) {
+        .visual-wrapper {
+            height: 520px; /* Lock height for absolute context */
+        }
+        .floating-cards-grid {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+        .float-card {
+            position: absolute;
+            pointer-events: auto;
+            animation: fadeInUp 0.8s var(--ease-bounce) both, floatCard 5s ease-in-out 2.5s infinite;
+        }
+        .fc-1 { top: -10px; right: -30px; animation-delay: 1.7s, 2.5s; }
+        .fc-2 { top: 50%; left: -40px; transform: translateY(-50%); animation-delay: 1.9s, 2.7s; }
+        .fc-3 { bottom: -10px; right: -10px; animation-delay: 2.1s, 2.9s; }
+        
+        /* Adjust float animations to respect the translateY(-50%) centering */
+        @keyframes floatCard { 
+            0%, 100% { transform: translateY(-50%); } 
+            50% { transform: translateY(calc(-50% - 8px)); } 
+        }
+    }
+
+    /* TABLET: Neat grid below main card */
     @media (max-width: 900px) {
         .hero-grid { grid-template-columns: 1fr; text-align: left; gap: 40px; }
-        .hero-visual { min-height: auto; padding: 40px 0; overflow: visible; width: 100%; }
-        /* FIXED: Removed zoom and -moz-transform, using standard transform */
-        .visual-wrapper {
-            transform: scale(0.75);
-            transform-origin: top center;
-            width: 450px;
-            height: 520px;
-            margin: 0 auto;
+        .hero-visual { padding: 40px 0; }
+        .visual-wrapper { height: auto; }
+        
+        .floating-cards-grid {
+            position: relative;
+            grid-template-columns: repeat(3, 1fr);
+            inset: auto;
+        }
+        .float-card {
+            position: relative;
+            top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
+            transform: none !important;
+            padding: 12px;
         }
     }
     
+    /* MOBILE: Stack vertically to guarantee 100% fit on small screens */
     @media (max-width: 600px) {
         .hero h1 { font-size: 26px; }
         .hero p { font-size: 14px; }
         .hero-visual { padding: 30px 0; }
-        .visual-wrapper { transform: scale(0.62); transform-origin: top center; }
         .signals-grid { grid-template-columns: 1fr; }
         .sc-levels { grid-template-columns: 1fr; }
         .footer-grid { grid-template-columns: 1fr; }
@@ -482,15 +519,19 @@
         .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
         
         .nav-right { gap: 10px; }
-        .btn-account {
-            min-width: 0;
-            padding: 6px 10px;
-            gap: 1px;
-            min-height: 40px;
-        }
+        .btn-account { min-width: 0; padding: 6px 10px; gap: 1px; min-height: 40px; }
         .btn-account-main { font-size: 12px; gap: 5px; }
         .btn-account-main .icon { width: 13px; height: 13px; }
         .btn-account-sub { font-size: 9px; margin-left: 18px; }
+
+        .floating-cards-grid {
+            grid-template-columns: 1fr; /* Stack perfectly on mobile */
+            gap: 12px;
+        }
+        .float-card {
+            width: 100%;
+            justify-content: flex-start;
+        }
     }
 
     @media (max-width: 380px) {
@@ -499,12 +540,7 @@
         .btn-account-main .icon { width: 12px; height: 12px; }
         .btn-account-sub { font-size: 8px; margin-left: 16px; }
     }
-    
-    @media (min-width: 601px) and (max-width: 900px) {
-        .visual-wrapper { transform: scale(0.72); transform-origin: top center; }
-    }
 
-    /* FIXED: Added body to prevent blank page for reduced-motion users */
     @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
         .reveal, .reveal-left, .reveal-right, .reveal-scale { opacity: 1 !important; transform: none !important; }
@@ -536,7 +572,6 @@
     </div>
 </div>
 
-<!-- FIXED: Added aria-label for accessibility -->
 <nav class="navbar" id="navbar" aria-label="Main Navigation">
     <div class="nav-inner">
         <a href="#" class="nav-logo">
@@ -557,7 +592,6 @@
                 </span>
                 <span class="btn-account-sub">Sign In / Sign Up</span>
             </button>
-            <!-- FIXED: Added aria-expanded -->
             <button type="button" class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false"><svg class="icon-lg" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
         </div>
     </div>
@@ -635,17 +669,20 @@
                         </div>
                     </div>
 
-                    <div class="float-card fc-1">
-                        <div class="icon-circle cyan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
-                        <div class="fc-text"><span class="fc-label">BTC/USDT</span><span class="fc-value">+12.4% ROI</span></div>
-                    </div>
-                    <div class="float-card fc-2">
-                        <div class="icon-circle blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
-                        <div class="fc-text"><span class="fc-label">AI Accuracy</span><span style="white-space:nowrap"><span class="fc-value counter" data-target="94.2" data-decimals="1">0</span><span class="fc-value">%</span></span></div>
-                    </div>
-                    <div class="float-card fc-3">
-                        <div class="icon-circle purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-                        <div class="fc-text"><span class="fc-label">Traders Online</span><span class="fc-value counter" data-target="12847" data-decimals="0">0</span></div>
+                    <!-- PERFECT RESPONSIVE FLOATING CARDS GRID -->
+                    <div class="floating-cards-grid">
+                        <div class="float-card fc-1">
+                            <div class="icon-circle cyan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+                            <div class="fc-text"><span class="fc-label">BTC/USDT</span><span class="fc-value">+12.4% ROI</span></div>
+                        </div>
+                        <div class="float-card fc-2">
+                            <div class="icon-circle blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+                            <div class="fc-text"><span class="fc-label">AI Accuracy</span><span style="white-space:nowrap"><span class="fc-value counter" data-target="94.2" data-decimals="1">0</span><span class="fc-value">%</span></span></div>
+                        </div>
+                        <div class="float-card fc-3">
+                            <div class="icon-circle purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                            <div class="fc-text"><span class="fc-label">Traders Online</span><span class="fc-value counter" data-target="12847" data-decimals="0">0</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -688,7 +725,6 @@
         </div>
         <div class="filter-bar reveal">
             <div class="filters">
-                <!-- FIXED: Added type="button" -->
                 <button type="button" class="filter-btn active" onclick="filterSignals('all', this)" aria-pressed="true">All Signals</button>
                 <button type="button" class="filter-btn" onclick="filterSignals('buy', this)" aria-pressed="false">
                     <svg class="icon-check-circle green small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="8"/><polyline points="9 12 11 14 15 10"/></svg> Long
@@ -754,7 +790,6 @@
     <div class="container" style="max-width:700px">
         <div class="section-header reveal"><h2 class="section-title">FAQ</h2><p class="section-sub">Everything you need to know about Elite Signal.</p></div>
         <div class="reveal" style="background:var(--glass);border:1px solid var(--border);border-radius:16px;overflow:hidden">
-            <!-- FIXED: Replaced inline JS with toggleFaq function and added faq-icon class -->
             <div style="padding:20px;border-bottom:1px solid var(--border);cursor:pointer" onclick="toggleFaq(this)">
                 <div style="display:flex;justify-content:space-between;align-items:center"><strong>How accurate are your trading signals?</strong><svg class="icon faq-icon" viewBox="0 0 24 24" style="transform:rotate(180deg);transition:transform 0.4s var(--ease-smooth)"><polyline points="6 9 12 15 18 9"/></svg></div>
             </div>
@@ -802,7 +837,6 @@
     </div>
 </footer>
 
-<!-- FIXED: Added role="dialog", aria-modal="true", and wrapped inputs in <form> -->
 <div class="modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
     <div class="modal-content">
         <button type="button" class="modal-close" onclick="closeModal('login')">&times;</button>
@@ -839,11 +873,9 @@
     let animationId;
     let isMobile = window.innerWidth < 768;
 
-    // FIXED: Scale existing particles instead of re-initializing to prevent jumping
     function resizeCanvas() { 
         const oldWidth = canvas.width || window.innerWidth;
         const oldHeight = canvas.height || window.innerHeight;
-        
         canvas.width = window.innerWidth; 
         canvas.height = window.innerHeight; 
         isMobile = window.innerWidth < 768; 
@@ -883,17 +915,14 @@
     function drawConnections() {
         const maxDist = isMobile ? 120 : 150;
         const maxDistSq = maxDist * maxDist;
-        
         ctx.lineWidth = 0.5;
         ctx.strokeStyle = 'rgba(0, 240, 255, 0.05)';
         ctx.beginPath();
-        
         for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
                 const dx = particles[i].x - particles[j].x;
                 const dy = particles[i].y - particles[j].y;
                 const distSq = dx * dx + dy * dy;
-                
                 if (distSq < maxDistSq) {
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);
@@ -919,7 +948,6 @@
     }
     
     let resizeTimeout;
-    // FIXED: Removed initParticles() from resize listener
     window.addEventListener('resize', () => { 
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(resizeCanvas, 100);
@@ -943,7 +971,6 @@
         }
     }, { passive: true });
 
-    // FIXED: Update aria-expanded when toggling menu
     menuBtn.addEventListener('click', () => { 
         mobileMenu.classList.toggle('active'); 
         const isOpen = mobileMenu.classList.contains('active'); 
@@ -1015,7 +1042,6 @@
     function handleLogin() { const email = document.getElementById('loginEmail').value; const password = document.getElementById('loginPassword').value; if (!email || !password) return showToast('Please fill in all fields'); closeModal('login'); showToast('Welcome back! Redirecting...'); }
     function handleSignup() { if (!document.getElementById('termsCheck').checked) return showToast('Please agree to the Terms'); closeModal('signup'); showToast('Account created! Check your email.'); }
     
-    // FIXED: Added toastTimeout to prevent overlapping toasts
     let toastTimeout;
     function showToast(message) { 
         const toast = document.getElementById('toast'); 
@@ -1025,12 +1051,10 @@
         toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000); 
     }
     
-    // FIXED: Added toggleFaq function to properly rotate the icon
     function toggleFaq(element) {
         const answer = element.nextElementSibling;
         const icon = element.querySelector('.faq-icon');
         const isOpen = answer.style.display === 'block';
-        
         answer.style.display = isOpen ? 'none' : 'block';
         icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
     }
