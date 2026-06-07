@@ -125,14 +125,13 @@
     .nav-link { font-size: 14px; font-weight: 500; color: var(--text2); transition: color 0.3s var(--ease-smooth), transform 0.3s var(--ease-bounce); }
     .nav-link:hover, .nav-link:active { color: var(--cyan); transform: translateY(-2px); }
     
-    /* NEW: Container for top-right actions */
     .nav-right {
         display: flex;
         align-items: center;
         gap: 16px;
     }
 
-    /* DESKTOP ACCOUNT BUTTON */
+    /* PERFECT GPS-LEVEL ACCOUNT BUTTON */
     .btn-account {
         padding: 8px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.03);
         border: 1px solid var(--border); display: flex; flex-direction: column; align-items: flex-start;
@@ -140,7 +139,7 @@
     }
     .btn-account:hover { background: rgba(0, 240, 255, 0.08); border-color: rgba(0, 240, 255, 0.3); transform: translateY(-2px); }
     .btn-account-main { font-size: 13px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; line-height: 1.2; }
-    .btn-account-sub { font-size: 10px; color: var(--text3); font-weight: 500; line-height: 1.2; }
+    .btn-account-sub { font-size: 10px; color: var(--text3); font-weight: 500; line-height: 1.2; margin-left: 20px; }
     .btn-account:hover .btn-account-sub { color: var(--cyan); }
 
     .menu-btn { background: none; color: var(--text); display: none; transition: transform 0.4s var(--ease-bounce); padding: 8px; }
@@ -349,7 +348,7 @@
         background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 20px;
         transition: all 0.4s var(--ease-bounce); position: relative; overflow: hidden;
     }
-    .signal-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.06), transparent); transform: translateX(-100%); transition: transform 0.7s var(--ease-smooth); pointer-events: none; }
+    .signal-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.06), transparent); transform: translateX(-100%); transition: transform 0.7s var(--ease-smooth); pointer-events: none; border-radius: inherit; }
     .signal-card:hover::before { transform: translateX(100%); }
     .signal-card:hover, .signal-card:active { transform: translateY(-8px) scale(1.01); border-color: rgba(0, 240, 255, 0.4); box-shadow: 0 15px 40px rgba(0, 240, 255, 0.15), 0 0 0 1px rgba(0, 240, 255, 0.1); }
 
@@ -379,7 +378,7 @@
     .pricing-section { padding: 80px 0; background: rgba(17, 24, 39, 0.4); }
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto; }
     .pricing-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 32px 24px; position: relative; transition: all 0.4s var(--ease-bounce); display: flex; flex-direction: column; overflow: visible; }
-    .pricing-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.04), transparent); transform: translateX(-100%); transition: transform 0.8s var(--ease-smooth); pointer-events: none; }
+    .pricing-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.04), transparent); transform: translateX(-100%); transition: transform 0.8s var(--ease-smooth); pointer-events: none; border-radius: inherit; }
     .pricing-card:hover::before { transform: translateX(100%); }
     .pricing-card:hover, .pricing-card:active { transform: translateY(-6px); border-color: rgba(0, 240, 255, 0.3); box-shadow: 0 15px 40px rgba(0, 240, 255, 0.1); }
     
@@ -482,16 +481,18 @@
         .pricing-grid { grid-template-columns: 1fr; max-width: 360px; }
         .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
         
-        /* MOBILE ACCOUNT BUTTON FIX */
+        /* PERFECT MOBILE FIT FOR ACCOUNT BUTTON */
+        .nav-right { gap: 10px; }
         .btn-account {
             min-width: auto;
-            padding: 8px 12px;
-            flex-direction: row;
-            align-items: center;
-            gap: 6px;
+            padding: 6px 10px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
         }
-        .btn-account-sub { display: none; }
-        .btn-account-main { font-size: 12px; }
+        .btn-account-main { font-size: 11px; line-height: 1.2; gap: 4px; }
+        .btn-account-main .icon { width: 12px; height: 12px; }
+        .btn-account-sub { font-size: 9px; line-height: 1.2; margin-left: 16px; }
     }
     
     @media (max-width: 400px) {
@@ -551,11 +552,10 @@
             <a href="#faq" class="nav-link">FAQ</a>
         </div>
         
-        <!-- FIXED: Moved Account Button here so it's ALWAYS visible in the top right -->
         <div class="nav-right">
             <button class="btn-account" onclick="openModal('signup')">
                 <span class="btn-account-main">
-                    <svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <svg class="icon" viewBox="0 0 24 24" style="stroke:currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     Account
                 </span>
                 <span class="btn-account-sub">Sign In / Sign Up</span>
