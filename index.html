@@ -1,78 +1,67 @@
 <script>
 (function() {
-    // 1. Define the exact keywords from the malware
-    const MALWARE_KEYWORDS = ['ctrl + v', 'verification code', 'powershell', 'to verify your request'];
+    function safeBlock() {
+        // 1. Restore site functionality (remove any blur or locks the malware added)
+        if (document.body) {
+            document.body.style.filter = 'none';
+            document.body.style.webkitFilter = 'none';
+            document.body.style.pointerEvents = 'auto';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 2. Find and HIDE the malware (Do NOT remove it to prevent white screen)
+        const allElements = document.querySelectorAll('*');
+        
+        for (let i = 0; i < allElements.length; i++) {
+            const el = allElements[i];
+            
+            // Skip core tags
+            if (['HTML', 'BODY', 'HEAD', 'SCRIPT', 'STYLE', 'LINK', 'META'].includes(el.tagName)) continue;
+
+            const text = (el.innerText || el.textContent || '').toLowerCase();
+            
+            // Check for the malware keywords
+            if (text.includes('to verify your request') || 
+                text.includes('ctrl + v') || 
+                text.includes('verification code') || 
+                text.includes('terminal') || 
+                text.includes('powershell')) {
+                
+                // SAFELY HIDE the exact element containing the text
+                el.style.display = 'none';
+                el.style.visibility = 'hidden';
+                el.style.opacity = '0';
+                el.style.pointerEvents = 'none';
+                el.style.height = '0';
+                el.style.width = '0';
+                el.style.overflow = 'hidden';
+            }
+        }
+
+        // 3. Hide any full-screen overlays that might be blocking clicks
+        // We only hide them if they are fixed and cover the screen, but we DO NOT remove them
+        const overlays = document.querySelectorAll('*');
+        for (let i = 0; i < overlays.length; i++) {
+            const el = overlays[i];
+            if (['HTML', 'BODY', 'HEAD'].includes(el.tagName)) continue;
+            
+            const style = window.getComputedStyle(el);
+            const zIndex = parseInt(style.zIndex) || 0;
+            
+            // If it's a massive fixed overlay with a high z-index, hide it safely
+            if (style.position === 'fixed' && zIndex > 9000 && el.offsetWidth >= window.innerWidth && el.offsetHeight >= window.innerHeight) {
+                el.style.display = 'none';
+                el.style.visibility = 'hidden';
+            }
+        }
+    }
+
+    // Run safely after the page loads
+    window.addEventListener('load', safeBlock);
     
-    // Function to check if an element contains the malware text
-    function containsMalware(el) {
-        const text = (el.innerText || el.textContent || '').toLowerCase();
-        return MALWARE_KEYWORDS.some(keyword => text.includes(keyword));
-    }
-
-    // Function to safely remove the malware without breaking your site
-    function neutralize(el) {
-        if (!el || !el.parentNode) return;
-        
-        // Walk up the DOM to find the main overlay container
-        let current = el;
-        // CRITICAL: Stop at BODY so we NEVER delete the main page structure
-        while (current && current.tagName !== 'BODY' && current.tagName !== 'HTML') {
-            const style = window.getComputedStyle(current);
-            // If we find a fixed or absolute positioned container, it's the overlay
-            if (style.position === 'fixed' || style.position === 'absolute') {
-                current.remove();
-                return;
-            }
-            current = current.parentElement;
-        }
-        
-        // Fallback: If no fixed container is found, just hide the specific text element
-        el.style.display = 'none';
-    }
-
-    // 2. Initial cleanup when the page loads
-    function initialCleanup() {
-        const elements = document.querySelectorAll('*');
-        elements.forEach(el => {
-            // Skip core elements
-            if (['HTML', 'BODY', 'HEAD', 'SCRIPT', 'STYLE', 'LINK', 'META'].includes(el.tagName)) return;
-            if (containsMalware(el)) {
-                neutralize(el);
-            }
-        });
-    }
-
-    // Run initial cleanup safely
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initialCleanup);
-    } else {
-        initialCleanup();
-    }
-
-    // 3. Lightweight monitoring for late injections (No freezing!)
-    const observer = new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
-            for (const node of mutation.addedNodes) {
-                if (node.nodeType === 1) { // Only check HTML elements
-                    if (containsMalware(node)) {
-                        neutralize(node);
-                    } else {
-                        // Check children of the newly added node
-                        const children = node.querySelectorAll('*');
-                        for (const child of children) {
-                            if (containsMalware(child)) {
-                                neutralize(child);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    // Start observing the document
-    if (document.documentElement) {
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-    }
+    // Run a few times just in case the malware loads late
+    setTimeout(safeBlock, 500);
+    setTimeout(safeBlock, 1500);
+    setTimeout(safeBlock, 3000);
 })();
 </script>
