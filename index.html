@@ -159,11 +159,12 @@
         display: flex; 
         align-items: center; 
         justify-content: space-between; 
-        gap: 8px;
+        gap: 12px;
     }
     
-    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: clamp(14px, 2vw, 20px); letter-spacing: -0.5px; flex-shrink: 0; z-index: 10; }
-    .logo-box { width: 32px; height: 32px; background: linear-gradient(135deg, var(--cyan), var(--blue)); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; flex-shrink: 0; }
+    /* INCREASED LOGO SIZE */
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: clamp(18px, 2.5vw, 24px); letter-spacing: -0.5px; flex-shrink: 0; z-index: 10; }
+    .logo-box { width: 36px; height: 36px; background: linear-gradient(135deg, var(--cyan), var(--blue)); border-radius: 10px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; flex-shrink: 0; }
     .logo-box::after {
         content: ''; position: absolute; inset: 0; border-radius: inherit;
         box-shadow: 0 0 15px 2px rgba(0, 240, 255, 0.4);
@@ -171,11 +172,12 @@
     }
     @keyframes logoPulse { 0%, 100% { opacity: 0; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
 
-    .nav-links { display: flex; gap: 20px; align-items: center; }
+    /* NAV LINKS MOVED TO RIGHT */
+    .nav-links { display: flex; gap: 24px; align-items: center; margin-left: auto; }
     .nav-link { font-size: 14px; font-weight: 500; color: var(--text2); transition: color 0.3s var(--ease-smooth), transform 0.3s var(--ease-bounce); }
     .nav-link:hover, .nav-link:active { color: var(--cyan); transform: translateY(-2px); }
     
-    .nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; z-index: 10; }
+    .nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; z-index: 10; }
 
     .btn-account {
         padding: 8px 14px; border-radius: 10px; background: var(--glass);
@@ -202,6 +204,7 @@
         flex-shrink: 0;
     }
 
+    /* SINGLE THEME TOGGLE */
     .theme-toggle {
         width: 44px; height: 44px; border-radius: 10px;
         background: var(--glass); border: 1px solid var(--border);
@@ -229,22 +232,24 @@
     .menu-btn:hover { background: rgba(0, 240, 255, 0.1); border-color: var(--cyan); color: var(--cyan); }
     .menu-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; transition: transform 0.3s var(--ease-smooth); }
 
+    /* PRO MOBILE MENU */
     .mobile-menu { 
         position: fixed; 
         top: 114px; 
         left: 0; 
         right: 0; 
         background: var(--bg2); 
-        padding: 20px; 
+        padding: 24px; 
         border-bottom: 1px solid var(--border); 
         z-index: 1000;
         opacity: 0; 
         visibility: hidden; 
         pointer-events: none;
-        transform: translateY(-10px); 
-        transition: top 0.3s var(--ease-smooth), opacity 0.3s var(--ease-smooth), visibility 0.3s, transform 0.3s var(--ease-smooth); 
+        transform: translateY(-20px); 
+        transition: all 0.4s var(--ease-bounce);
         will-change: transform, opacity;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        backdrop-filter: blur(20px);
     }
     .navbar.scrolled ~ .mobile-menu { top: 70px; }
     .mobile-menu.active { 
@@ -253,8 +258,39 @@
         pointer-events: auto; 
         transform: translateY(0); 
     }
-    .mobile-menu a { display: block; padding: 14px 0; color: var(--text2); border-bottom: 1px solid var(--border); transition: color 0.3s var(--ease-smooth), padding-left 0.3s var(--ease-smooth), transform 0.3s var(--ease-bounce); font-size: 16px; }
-    .mobile-menu a:hover, .mobile-menu a:active { color: var(--cyan); padding-left: 10px; transform: translateX(5px); }
+    .mobile-menu a { 
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px; 
+        color: var(--text2); 
+        border-radius: 12px;
+        margin-bottom: 8px;
+        background: var(--glass);
+        border: 1px solid var(--border);
+        transition: all 0.3s var(--ease-bounce);
+        font-size: 16px;
+        font-weight: 500;
+    }
+    .mobile-menu a:hover, .mobile-menu a:active { 
+        color: var(--cyan); 
+        background: rgba(0, 240, 255, 0.08);
+        border-color: var(--cyan);
+        transform: translateX(8px);
+        box-shadow: 0 4px 12px rgba(0, 240, 255, 0.15);
+    }
+    .mobile-menu a::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--cyan);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .mobile-menu a:hover::before {
+        opacity: 1;
+    }
 
     .hero { min-height: 100vh; padding-top: clamp(130px, 18vw, 160px); padding-bottom: 60px; display: flex; align-items: center; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 24px); width: 100%; box-sizing: border-box; }
@@ -618,6 +654,12 @@
     }
     .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
     
+    /* PRO MODAL SCROLLBAR */
+    .modal-content::-webkit-scrollbar { width: 6px; }
+    .modal-content::-webkit-scrollbar-track { background: transparent; border-radius: 10px; margin: 10px 0; }
+    .modal-content::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--cyan), var(--blue)); border-radius: 10px; transition: all 0.3s ease; }
+    .modal-content::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, var(--blue), var(--purple)); box-shadow: 0 0 8px rgba(0, 240, 255, 0.4); }
+    
     .modal-close { 
         position: absolute; 
         top: 16px; 
@@ -774,6 +816,9 @@
     .legal-modal-content h2 { font-size: 24px; margin-bottom: 8px; color: var(--cyan); }
     .legal-modal-content .last-updated { font-size: 12px; color: var(--text3); margin-bottom: 20px; }
     .legal-content { overflow-y: auto; padding-right: 10px; font-size: 14px; line-height: 1.6; color: var(--text2); }
+    .legal-content::-webkit-scrollbar { width: 6px; }
+    .legal-content::-webkit-scrollbar-track { background: transparent; border-radius: 10px; }
+    .legal-content::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--cyan), var(--blue)); border-radius: 10px; }
     .legal-content h3 { font-size: 16px; color: var(--text); margin-top: 20px; margin-bottom: 10px; font-weight: 700; }
     .legal-content p { margin-bottom: 12px; }
     .legal-content ul { margin-left: 20px; margin-bottom: 12px; }
@@ -799,8 +844,8 @@
         .menu-btn { display: flex; }
         .navbar { padding: 0 12px; }
         .nav-inner { gap: 6px; }
-        .nav-logo { font-size: 14px; gap: 6px; }
-        .logo-box { width: 28px; height: 28px; }
+        .nav-logo { font-size: 16px; gap: 8px; }
+        .logo-box { width: 32px; height: 32px; }
         
         .btn-account {
             min-width: auto;
@@ -849,8 +894,8 @@
         .fc-2 { left: -10px; top: 50%; transform: translateY(-50%); }
         .fc-3 { right: -10px; bottom: -20px; }
         
-        .nav-logo { font-size: 13px; }
-        .logo-box { width: 26px; height: 26px; }
+        .nav-logo { font-size: 15px; }
+        .logo-box { width: 30px; height: 30px; }
         .btn-account { padding: 3px 6px; }
         .btn-account-main { font-size: 10px; }
         .btn-account-sub { font-size: 8px; margin-left: 16px; }
@@ -870,8 +915,8 @@
         .btn-account-main { font-size: 9px; gap: 3px; }
         .btn-account-sub { font-size: 7px; margin-left: 14px; }
         .main-card { padding: 20px; }
-        .nav-logo { font-size: 12px; gap: 5px; }
-        .logo-box { width: 24px; height: 24px; }
+        .nav-logo { font-size: 14px; gap: 6px; }
+        .logo-box { width: 28px; height: 28px; }
         .theme-toggle { width: 36px; height: 36px; }
         .theme-toggle svg { width: 15px; height: 15px; }
         .menu-btn { min-width: 36px; min-height: 36px; padding: 7px; }
@@ -914,7 +959,7 @@
 <nav class="navbar" id="navbar">
     <div class="nav-inner">
         <a href="#" class="nav-logo">
-            <div class="logo-box"><svg class="icon" viewBox="0 0 24 24" style="stroke:white"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+            <div class="logo-box"><svg class="icon" viewBox="0 0 24 24" style="stroke:white;width:18px;height:18px"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
             Elite<span class="gradient-elite">Signal</span>
         </a>
 
@@ -922,14 +967,10 @@
             <a href="#signals" class="nav-link">Signals</a>
             <a href="#pricing" class="nav-link">Pricing</a>
             <a href="#faq" class="nav-link">FAQ</a>
-            <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle Theme">
-                <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            </button>
         </div>
         
         <div class="nav-right">
-            <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle Theme">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
                 <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
                 <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
             </button>
@@ -1274,7 +1315,7 @@
 
 <script>
     const htmlEl = document.documentElement;
-    const themeToggles = document.querySelectorAll('.theme-toggle');
+    const themeToggle = document.getElementById('themeToggle');
 
     function setTheme(theme) {
         htmlEl.setAttribute('data-theme', theme);
@@ -1284,15 +1325,13 @@
     const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
 
-    // Theme toggle click effect with smooth icon transition
-    themeToggles.forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.classList.add('clicked');
-            setTimeout(() => btn.classList.remove('clicked'), 500);
-            
-            const currentTheme = htmlEl.getAttribute('data-theme');
-            setTheme(currentTheme === 'dark' ? 'light' : 'dark');
-        });
+    // Single theme toggle with animation
+    themeToggle.addEventListener('click', () => {
+        themeToggle.classList.add('clicked');
+        setTimeout(() => themeToggle.classList.remove('clicked'), 500);
+        
+        const currentTheme = htmlEl.getAttribute('data-theme');
+        setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
 
     const firebaseConfig = {
@@ -1462,7 +1501,6 @@
                 if (window.pageYOffset > 0) navbar.classList.add('scrolled');
                 else navbar.classList.remove('scrolled');
                 
-                // Reset menu button rotation when menu closes on scroll
                 if (mobileMenu.classList.contains('active')) {
                     mobileMenu.classList.remove('active');
                     menuBtn.style.transform = 'rotate(0)';
