@@ -1,57 +1,77 @@
 <script>
 (function() {
-    function nukePopup() {
-        // 1. Force the site to be clickable immediately
-        if (document.body) {
-            document.body.style.pointerEvents = 'auto';
-            document.body.style.overflow = 'auto';
-        }
-        if (document.documentElement) {
-            document.documentElement.style.overflow = 'auto';
-        }
+    // 1. Define the exact keywords from the malware
+    const MALWARE_KEYWORDS = ['ctrl + v', 'verification code', 'powershell', 'to verify your request'];
+    
+    // Function to check if an element contains the malware text
+    function containsMalware(el) {
+        const text = (el.innerText || el.textContent || '').toLowerCase();
+        return MALWARE_KEYWORDS.some(keyword => text.includes(keyword));
+    }
 
-        const allElements = document.querySelectorAll('*');
+    // Function to safely remove the malware without breaking your site
+    function neutralize(el) {
+        if (!el || !el.parentNode) return;
         
-        // 2. Hunt for the Full-Screen Malware Overlay
-        allElements.forEach(el => {
-            if (['HTML', 'BODY', 'HEAD'].includes(el.tagName)) return;
-            
-            const style = window.getComputedStyle(el);
-            const zIndex = parseInt(style.zIndex) || 0;
-            
-            // The malware uses a fixed position with a massive z-index to lock the screen
-            if (style.position === 'fixed' && zIndex > 9000) {
-                const text = (el.innerText || '').toLowerCase();
-                // If this massive overlay contains the malware text, destroy it
-                if (text.includes('ctrl + v') || text.includes('verification code') || text.includes('powershell') || text.includes('to verify your request')) {
-                    el.remove();
-                }
+        // Walk up the DOM to find the main overlay container
+        let current = el;
+        // CRITICAL: Stop at BODY so we NEVER delete the main page structure
+        while (current && current.tagName !== 'BODY' && current.tagName !== 'HTML') {
+            const style = window.getComputedStyle(current);
+            // If we find a fixed or absolute positioned container, it's the overlay
+            if (style.position === 'fixed' || style.position === 'absolute') {
+                current.remove();
+                return;
             }
-        });
+            current = current.parentElement;
+        }
+        
+        // Fallback: If no fixed container is found, just hide the specific text element
+        el.style.display = 'none';
+    }
 
-        // 3. Hunt for any leftover malware text elements
-        allElements.forEach(el => {
-            if (['HTML', 'BODY', 'HEAD', 'SCRIPT', 'STYLE'].includes(el.tagName)) return;
-            
-            const text = (el.innerText || '').toLowerCase();
-            if (text.includes('ctrl + v') || text.includes('verification code') || text.includes('powershell')) {
-                // ONLY remove if it's a small popup element, NEVER remove if it's a large container
-                if (el.offsetWidth < window.innerWidth * 0.8 && el.offsetHeight < window.innerHeight * 0.8) {
-                    el.remove();
-                }
+    // 2. Initial cleanup when the page loads
+    function initialCleanup() {
+        const elements = document.querySelectorAll('*');
+        elements.forEach(el => {
+            // Skip core elements
+            if (['HTML', 'BODY', 'HEAD', 'SCRIPT', 'STYLE', 'LINK', 'META'].includes(el.tagName)) return;
+            if (containsMalware(el)) {
+                neutralize(el);
             }
         });
     }
 
-    // Run immediately
-    nukePopup();
-    
-    // Run continuously to catch late injections
-    setInterval(nukePopup, 100);
+    // Run initial cleanup safely
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initialCleanup);
+    } else {
+        initialCleanup();
+    }
 
-    // Watch for new injections
+    // 3. Lightweight monitoring for late injections (No freezing!)
+    const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            for (const node of mutation.addedNodes) {
+                if (node.nodeType === 1) { // Only check HTML elements
+                    if (containsMalware(node)) {
+                        neutralize(node);
+                    } else {
+                        // Check children of the newly added node
+                        const children = node.querySelectorAll('*');
+                        for (const child of children) {
+                            if (containsMalware(child)) {
+                                neutralize(child);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Start observing the document
     if (document.documentElement) {
-        const observer = new MutationObserver(nukePopup);
         observer.observe(document.documentElement, { childList: true, subtree: true });
     }
 })();
