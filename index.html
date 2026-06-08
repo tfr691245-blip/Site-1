@@ -3,7 +3,6 @@
 <head>
     <title>Blocker Test</title>
     <style>
-        /* Styles to make it look like the fake popup */
         .fake-popup {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -16,7 +15,7 @@
 <body>
 
     <h1>Testing Popup Blocker</h1>
-    <p>If the blocker works, the popup below will disappear in less than a second.</p>
+    <p>If the blocker works, the popup below will disappear instantly.</p>
 
     <!-- Simulated Fake Popup -->
     <div class="fake-popup">
@@ -33,17 +32,25 @@
         </div>
     </div>
 
-    <!-- The Blocker Script -->
+    <!-- The Stronger Blocker Script -->
     <script>
-        setInterval(function() {
-            var popups = document.querySelectorAll('div, section, iframe');
-            popups.forEach(function(element) {
-                var text = element.innerText || "";
-                if (text.includes('PowerShell') || text.includes('Verification code') || text.includes('Ctrl+V')) {
-                    element.remove();
-                }
+        // Watch for any new elements added to the page
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1) { // Check if it's an HTML element
+                        const text = node.innerText || "";
+                        // Check for the exact text from your screenshot
+                        if (text.includes('Ctrl + V') || text.includes('Verification code') || text.includes('Terminal')) {
+                            node.remove(); // Delete it immediately
+                        }
+                    }
+                });
             });
-        }, 100);
+        });
+
+        // Start watching the whole page
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 
 </body>
